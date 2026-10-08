@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Administration · Les Aisses Golf</title>
+<link rel="icon" type="image/webp" href="../assets/img/monogramme.webp">
+<link rel="stylesheet" href="admin.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+<script src="../js/config.js" defer></script>
+<script src="admin.js" defer></script>
+</head>
+<body>
+
+<!-- ===== Connexion ===== -->
+<main class="ecran-connexion" data-vue="connexion" hidden>
+  <form class="carte-connexion" data-form-connexion>
+    <img src="../assets/img/logo.png" alt="Les Aisses Golf" width="160" height="59">
+    <h1 class="org">Administration</h1>
+    <label>Adresse e-mail<input type="email" name="email" autocomplete="username" required></label>
+    <label>Mot de passe<input type="password" name="password" autocomplete="current-password" required></label>
+    <button class="btn plein" type="submit">Se connecter</button>
+    <button class="lien" type="button" data-oubli>Mot de passe oublié ou première connexion ?</button>
+    <p class="message" data-message-connexion role="status"></p>
+  </form>
+</main>
+
+<!-- ===== Choix du mot de passe (invitation ou mot de passe oublié) ===== -->
+<main class="ecran-connexion" data-vue="motdepasse" hidden>
+  <form class="carte-connexion" data-form-motdepasse>
+    <img src="../assets/img/logo.png" alt="Les Aisses Golf" width="160" height="59">
+    <h1 class="org">Choisir un mot de passe</h1>
+    <p class="aide">12 caractères minimum. Notez-le dans un endroit sûr.</p>
+    <label>Nouveau mot de passe<input type="password" name="p1" autocomplete="new-password" minlength="12" required></label>
+    <label>Confirmer<input type="password" name="p2" autocomplete="new-password" minlength="12" required></label>
+    <button class="btn plein" type="submit">Enregistrer le mot de passe</button>
+    <p class="message" data-message-motdepasse role="status"></p>
+  </form>
+</main>
+
+<!-- ===== Configuration manquante ===== -->
+<main class="ecran-connexion" data-vue="config" hidden>
+  <div class="carte-connexion">
+    <img src="../assets/img/logo.png" alt="Les Aisses Golf" width="160" height="59">
+    <h1 class="org">Configuration requise</h1>
+    <p class="aide">L'administration n'est pas encore reliée à Supabase. Renseignez l'adresse et la clé publique dans <code>js/config.js</code> (voir ADMIN.md, étape 3).</p>
+  </div>
+</main>
+
+<!-- ===== Application ===== -->
+<div class="app" data-vue="app" hidden>
+  <header class="barre">
+    <img src="../assets/img/logo.png" alt="Les Aisses Golf" width="120" height="44">
+    <span class="titre org">Administration</span>
+    <span class="espace"></span>
+    <span class="qui" data-qui></span>
+    <a class="btn" href="../index.html" target="_blank" rel="noopener">Voir le site</a>
+    <button class="btn" type="button" data-deconnexion>Déconnexion</button>
+  </header>
+  <div class="corps">
+    <nav class="onglets-admin" aria-label="Rubriques">
+      <button type="button" data-onglet="accueil" class="is-on">Accueil</button>
+      <button type="button" data-onglet="restaurant">Restaurant</button>
+      <button type="button" data-onglet="tarifs">Tarifs</button>
+      <button type="button" data-onglet="sejour">Séjourner</button>
+      <button type="button" data-onglet="medias">Médias</button>
+    </nav>
+    <section class="panneau" data-panneau></section>
+  </div>
+</div>
+
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+</body>
+</html>

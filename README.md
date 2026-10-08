@@ -1,14 +1,19 @@
 # Les Aisses Golf · site one-page
 
-Nouveau site vitrine du golf des Aisses (La Ferté-Saint-Aubin, Loiret). Site statique en une seule page, en français : HTML, CSS et JavaScript, sans framework ni étape de build.
+Nouveau site vitrine du golf des Aisses (La Ferté-Saint-Aubin, Loiret). Site statique en une seule page, en français et en anglais : HTML, CSS et JavaScript, sans framework ni étape de build.
 
 ## Structure
 
 ```
-index.html            la page (toutes les sections)
+index.html            la page en français (toutes les sections)
+en/index.html         la page en anglais (mêmes sections, mêmes fichiers CSS/JS/images)
 css/style.css         styles ; couleurs et polices en variables dans :root
-js/main.js            diaporama de l'accueil, saison en cours, statut ouvert/fermé
-assets/fonts/         polices auto-hébergées (Organda, Rubik, Montserrat, Playfair Display, Anton)
+js/main.js            diaporama de l'accueil, saison en cours, statut ouvert/fermé, carte de score, galerie
+js/contenu.js         charge les contenus modifiés depuis l'administration (Supabase)
+js/config.js          adresse et clé publique Supabase
+admin/                interface d'administration (voir ADMIN.md)
+supabase/schema.sql   base de données de l'administration
+assets/fonts/         polices auto-hébergées (Organda, Rubik, Montserrat, Playfair Display)
 assets/img/           photos (WebP) et logos
 ```
 
@@ -24,14 +29,23 @@ puis aller sur http://localhost:8000
 
 ## Charte
 
-- Fond anthracite `#121212`, accent bronze `#A57A43`, texte blanc et gris clairs.
-- Titres et menu : **Organda** (police historique du golf). Texte : **Rubik**. Libellés : **Montserrat**. Citations : **Playfair Display** italique. Mot « SOLOGNE » : **Anton**.
+- Fond anthracite `#121212`, accent bronze `#C29257`, texte blanc et gris clairs.
+- Titres et menu : **Organda** (police historique du golf). Texte : **Rubik**. Libellés : **Montserrat**. Citations : **Playfair Display** italique. Mot « SOLOGNE » : **Organda** épaissi par un contour.
 - Aucun angle arrondi.
+
+## Deux langues
+
+Chaque modification de contenu doit être faite dans **les deux fichiers** : `index.html` (français) et `en/index.html` (anglais). Les drapeaux en haut à droite passent de l'un à l'autre. Les textes générés par le script (statut d'ouverture, « Parcours / Course »…) sont dans l'objet `T` en haut de `js/main.js`.
+
+## Administration
+
+Les photos de l'accueil, les PDF du restaurant, les tarifs, les hébergements et la galerie se modifient depuis `/admin/`. Mise en route : **ADMIN.md**. Une fois Supabase configuré, ce sont les données de l'administration qui s'affichent, et non plus le contenu écrit en dur dans les fichiers HTML pour ces sections.
 
 ## Modifications courantes
 
 | Je veux… | Où |
 |---|---|
+| Changer les distances, par ou handicaps | `js/main.js`, objet `PARCOURS` (carte de score) |
 | Changer les tarifs | `index.html`, section `id="tarifs"` (deux tableaux) |
 | Changer une photo de l'accueil ou son parcours | `index.html`, section `id="accueil"` : `src`, `alt` et `data-parcours` de chaque `.slide` |
 | Changer les horaires | `js/main.js`, objet `HORAIRES` en haut du fichier |
@@ -40,6 +54,7 @@ puis aller sur http://localhost:8000
 
 ## Reste à compléter
 
+- Couleur ou nom de chaque repère de départ (affichés pour l'instant « Repère 1 » à « 5 »).
 - Hébergeur dans les mentions légales.
 - Nom du photographe dans les crédits.
 - Vérifier quelles photos de l'accueil montrent Les Aisses ou La Canne (`data-parcours`).

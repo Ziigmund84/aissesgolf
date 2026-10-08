@@ -1,0 +1,101 @@
+/* Les Aisses Golf — administration */
+@font-face { font-family: "Organda"; src: url("../assets/fonts/Organda.woff") format("woff"); font-display: swap; }
+@font-face { font-family: "Rubik"; src: url("../assets/fonts/rubik-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Rubik"; src: url("../assets/fonts/rubik-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Montserrat"; src: url("../assets/fonts/montserrat-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+
+:root { --fond: #121212; --fond-2: #1A1A1A; --fond-3: #222; --trait: #2E2E2E; --bronze: #C29257; --blanc: #FFF; --texte: #E6E6E6; --gris: #A8A8A8; --rouge: #E07B6A; }
+*, *::before, *::after { box-sizing: border-box; border-radius: 0; }
+html, body { margin: 0; background: var(--fond); color: var(--texte); font-family: "Rubik", system-ui, sans-serif; font-size: 15px; line-height: 1.5; }
+[hidden] { display: none !important; }
+.org { font-family: "Organda", "Oswald", sans-serif; font-weight: 400; }
+h1, h2, h3 { margin: 0; font-weight: 400; }
+code { background: var(--fond-3); padding: 1px 6px; }
+img { display: block; max-width: 100%; }
+
+/* Boutons et champs */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 16px; background: transparent; border: 1px solid #444; color: var(--blanc); font: 500 13px "Rubik", sans-serif; text-decoration: none; cursor: pointer; white-space: nowrap; }
+.btn:hover { border-color: var(--bronze); }
+.btn.plein { background: var(--bronze); border-color: var(--bronze); color: #121212; }
+.btn.plein:hover { filter: brightness(1.1); }
+.btn.danger { color: var(--rouge); border-color: #5A3A35; }
+.btn.danger.confirmer { background: var(--rouge); color: #121212; border-color: var(--rouge); }
+.btn.icone { width: 40px; padding: 0; }
+.btn:disabled { opacity: .4; cursor: default; }
+.lien { background: none; border: 0; color: var(--gris); text-decoration: underline; cursor: pointer; font: inherit; padding: 6px 0; }
+label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; letter-spacing: .06em; color: var(--gris); }
+input[type="text"], input[type="email"], input[type="password"], input[type="url"], input[type="number"], select {
+  width: 100%; min-height: 40px; padding: 8px 10px; background: var(--fond); border: 1px solid #3A3A3A; color: var(--blanc); font: 15px "Rubik", sans-serif;
+}
+input:focus, select:focus, .btn:focus-visible { outline: 1px solid var(--bronze); outline-offset: 1px; }
+
+/* Connexion */
+.ecran-connexion { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.carte-connexion { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 16px; padding: 40px 32px; background: var(--fond-2); border: 1px solid var(--trait); border-top: 2px solid var(--bronze); }
+.carte-connexion img { align-self: center; margin-bottom: 4px; }
+.carte-connexion h1 { font-size: 40px; text-align: center; margin-bottom: 8px; }
+.message { min-height: 1.5em; margin: 0; font-size: 14px; }
+.message.erreur { color: var(--rouge); }
+.message.ok { color: var(--bronze); }
+.aide { margin: 0; color: var(--gris); font-size: 14px; }
+
+/* Application */
+.barre { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 14px; padding: 12px 24px; background: rgba(18,18,18,.95); border-bottom: 1px solid var(--trait); flex-wrap: wrap; }
+.barre .titre { font-size: 26px; color: var(--blanc); }
+.barre .espace { flex: 1; }
+.barre .qui { color: var(--gris); font-size: 13px; }
+.corps { display: grid; grid-template-columns: 200px minmax(0, 1fr); min-height: calc(100vh - 70px); }
+.onglets-admin { display: flex; flex-direction: column; border-right: 1px solid var(--trait); padding: 24px 0; }
+.onglets-admin button { text-align: left; padding: 14px 24px; background: none; border: 0; border-left: 2px solid transparent; color: var(--texte); font: 400 22px "Organda", "Oswald", sans-serif; cursor: pointer; }
+.onglets-admin button:hover { color: var(--blanc); background: var(--fond-2); }
+.onglets-admin button.is-on { color: var(--bronze); border-left-color: var(--bronze); background: var(--fond-2); }
+.panneau { padding: 32px clamp(16px, 3vw, 48px) 80px; max-width: 1200px; }
+.panneau-tete { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.panneau-tete h2 { font-size: 46px; line-height: 1; color: var(--blanc); }
+.panneau-tete p { margin: 8px 0 0; color: var(--gris); max-width: 640px; }
+.chargement { color: var(--gris); padding: 40px 0; }
+
+/* Listes ordonnables */
+.liste { display: flex; flex-direction: column; gap: 10px; }
+.grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.element { position: relative; display: flex; gap: 16px; align-items: center; padding: 12px; background: var(--fond-2); border: 1px solid var(--trait); }
+.grille .element { flex-direction: column; align-items: stretch; gap: 10px; }
+.element.glisse { opacity: .4; }
+.element.cible { border-color: var(--bronze); }
+.poignee { cursor: grab; color: var(--gris); padding: 4px; user-select: none; font-size: 18px; line-height: 1; }
+.vignette { width: 160px; aspect-ratio: 16 / 10; background: var(--fond-3); flex: none; overflow: hidden; }
+.grille .vignette { width: 100%; }
+.vignette img { width: 100%; height: 100%; object-fit: cover; }
+.element .champs { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+.element .actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.numero { font: 400 26px "Organda", "Oswald", sans-serif; color: var(--bronze); min-width: 34px; text-align: center; }
+.zone-ajout { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.badge { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--gris); }
+
+/* Tarifs */
+.tarifs-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.bloc { padding: 24px; background: var(--fond-2); border: 1px solid var(--trait); display: flex; flex-direction: column; gap: 16px; }
+.bloc h3 { font: 400 30px "Organda", "Oswald", sans-serif; color: var(--blanc); }
+.prix-table { width: 100%; border-collapse: collapse; }
+.prix-table th, .prix-table td { padding: 8px 6px; text-align: left; }
+.prix-table th { font-weight: 400; color: var(--gris); font-size: 12px; letter-spacing: .08em; }
+.prix-table td input { max-width: 120px; }
+.euro { display: flex; align-items: center; gap: 6px; }
+
+/* PDF */
+.pdf-actuel { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; color: var(--gris); font-size: 14px; word-break: break-all; }
+.pdf-actuel a { color: var(--bronze); }
+
+/* Notification */
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; padding: 12px 20px; background: var(--fond-2); border: 1px solid var(--bronze); color: var(--blanc); transition: all .3s ease; z-index: 50; max-width: calc(100% - 32px); }
+.toast.visible { opacity: 1; transform: translate(-50%, 0); }
+.toast.erreur { border-color: var(--rouge); }
+
+@media (max-width: 800px) {
+  .corps { grid-template-columns: 1fr; }
+  .onglets-admin { flex-direction: row; overflow-x: auto; padding: 0; border-right: 0; border-bottom: 1px solid var(--trait); }
+  .onglets-admin button { border-left: 0; border-bottom: 2px solid transparent; font-size: 19px; padding: 12px 16px; white-space: nowrap; }
+  .onglets-admin button.is-on { border-bottom-color: var(--bronze); }
+  .element { flex-wrap: wrap; }
+  .vignette { width: 100%; }
+}
