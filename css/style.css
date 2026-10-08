@@ -1,0 +1,259 @@
+/* ==========================================================
+   Les Aisses Golf — feuille de style
+   Couleurs, polices et règles communes en tête de fichier.
+   ========================================================== */
+
+/* ---------- Polices (auto-hébergées, aucune requête vers Google) ---------- */
+@font-face { font-family: "Organda"; src: url("../assets/fonts/Organda.woff") format("woff"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Rubik"; src: url("../assets/fonts/rubik-latin-300-normal.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "Rubik"; src: url("../assets/fonts/rubik-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Rubik"; src: url("../assets/fonts/rubik-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Montserrat"; src: url("../assets/fonts/montserrat-latin-300-normal.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "Montserrat"; src: url("../assets/fonts/montserrat-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Playfair Display"; src: url("../assets/fonts/playfair-display-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Anton"; src: url("../assets/fonts/anton-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+/* ---------- Variables ---------- */
+:root {
+  --fond: #121212;
+  --fond-2: #1C1C1C;
+  --bronze: #A57A43;
+  --blanc: #FFFFFF;
+  --texte: #E6E6E6;
+  --texte-2: #D5D5D5;
+  --gris: #A8A8A8;
+  --gris-2: #8A8A8A;
+  --trait: #2A2A2A;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --ease-rideau: cubic-bezier(.77, 0, .18, 1);
+  --f-titre: "Organda", "Oswald", sans-serif;
+  --f-texte: "Rubik", system-ui, sans-serif;
+  --f-label: "Montserrat", system-ui, sans-serif;
+  --f-italique: "Playfair Display", Georgia, serif;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; border-radius: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body { margin: 0; background: var(--fond); color: var(--blanc); font-family: var(--f-texte); font-size: 17px; line-height: 1.65; overflow-x: clip; }
+img { display: block; max-width: 100%; }
+a { color: var(--blanc); }
+a:hover { color: var(--bronze); }
+h1, h2, h3, p { margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.w { max-width: 1320px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 56px); }
+.org { font-family: var(--f-titre); font-weight: 400; }
+.kick { font-family: var(--f-label); font-weight: 500; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: var(--bronze); }
+.italique { font-family: var(--f-italique); font-style: italic; }
+.titre-section { font-size: clamp(54px, 7vw, 110px); line-height: .9; }
+.img-cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ulink { display: inline-block; font-family: var(--f-label); font-size: 12px; font-weight: 500; letter-spacing: .24em; text-transform: uppercase; text-decoration: none; color: var(--blanc); padding: 14px 0; border-bottom: 1px solid var(--bronze); }
+.trait-bronze { height: 1px; background: var(--bronze); transform-origin: left; }
+
+/* ---------- En-tête ---------- */
+.entete { position: fixed; inset: 0 0 auto 0; z-index: 50; background: rgba(18, 18, 18, .35); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255, 255, 255, .1); }
+.entete .w { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; padding-top: 12px; padding-bottom: 12px; }
+.entete .logo img { height: 50px; width: auto; }
+.nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0 22px; }
+.nav a { position: relative; font-family: var(--f-titre); color: var(--texte); text-decoration: none; font-size: 21px; line-height: 1; padding: 12px 4px; }
+.nav a::after { content: ""; position: absolute; left: 4px; right: 4px; bottom: 6px; height: 1px; background: var(--bronze); transform: scaleX(0); transform-origin: left; transition: transform .4s ease; }
+.nav a:hover { color: var(--blanc); }
+.nav a:hover::after { transform: scaleX(1); }
+.nav .reserver { color: var(--bronze); }
+
+/* ---------- Accueil : diaporama ---------- */
+.accueil { position: relative; height: 100vh; min-height: 600px; overflow: hidden; background: #0C0C0C; }
+.slide { position: absolute; inset: 0; overflow: hidden; z-index: 1; clip-path: inset(0 0 0 100%); }
+.slide.is-active, .slide.is-prev { clip-path: inset(0 0 0 0); }
+.slide.is-active { z-index: 3; transition: clip-path 1.5s var(--ease-rideau); }
+.slide.is-prev { z-index: 2; }
+.slide.is-active img { animation: kenburns 14s ease-out both; }
+@keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1); } }
+.accueil-voile { position: absolute; inset: 0; z-index: 5; background: linear-gradient(180deg, rgba(18,18,18,.45) 0%, rgba(18,18,18,0) 30%, rgba(18,18,18,0) 55%, rgba(18,18,18,.8) 100%); }
+.accueil-bas { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; padding-bottom: clamp(32px, 6vw, 72px); }
+.accueil h1 { position: relative; height: clamp(150px, 20vw, 300px); font-weight: 400; }
+.nom-parcours { position: absolute; left: 0; bottom: 0; pointer-events: none; }
+.nom-parcours .kick { display: block; color: var(--blanc); margin-bottom: 14px; opacity: 0; transition: opacity .8s ease; }
+.nom-parcours.is-active .kick { opacity: 1; transition-delay: .4s; }
+.nom-parcours .lettres { display: block; overflow: hidden; font-family: var(--f-titre); font-size: clamp(76px, 14vw, 220px); line-height: .9; letter-spacing: -2px; white-space: nowrap; }
+.nom-parcours .ch { display: inline-block; transform: translateY(105%); opacity: 0; transition: transform 1s var(--ease), opacity 1s ease; }
+.nom-parcours.is-active .ch { transform: none; opacity: 1; }
+.pagination { display: flex; align-items: center; gap: 18px; margin-top: 14px; }
+.pagination .compteur { font-family: var(--f-titre); font-size: 22px; min-width: 64px; }
+.pagination .compteur span { color: var(--gris-2); }
+.pagination .barres { display: flex; gap: 8px; flex: 1; max-width: 420px; }
+.pagination button { flex: 1; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; display: flex; align-items: center; }
+.pagination .piste { display: block; width: 100%; height: 2px; background: rgba(255,255,255,.25); position: relative; overflow: hidden; }
+.pagination .remplissage { position: absolute; left: 0; top: 0; bottom: 0; width: 0; }
+.pagination button.is-done .remplissage { width: 100%; background: rgba(255,255,255,.7); }
+.pagination button.is-active .remplissage { background: var(--bronze); animation: progression 7s linear both; }
+@keyframes progression { from { width: 0; } to { width: 100%; } }
+
+/* ---------- Introduction ---------- */
+.intro { padding: clamp(100px, 14vw, 200px) 0; }
+.intro .w { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 34px; }
+.intro .phrase { font-size: clamp(30px, 4.4vw, 62px); line-height: 1.2; color: #F2F2F2; max-width: 1050px; }
+
+/* ---------- Parcours : écran partagé ---------- */
+.split { display: flex; height: 92vh; min-height: 560px; }
+.panel { position: relative; flex: 1; overflow: hidden; color: var(--blanc); text-decoration: none; transition: flex 1.1s var(--ease-rideau); }
+.panel + .panel { border-left: 1px solid var(--bronze); }
+.split:hover .panel { flex: .7; }
+.split .panel:hover { flex: 1.6; }
+.panel .img-cover { filter: brightness(.55) saturate(.9); transition: transform 1.4s var(--ease), filter 1s ease; }
+.panel:hover .img-cover { transform: scale(1.05); filter: brightness(.8) saturate(1); }
+.panel-texte { position: absolute; left: clamp(20px, 4vw, 56px); right: clamp(20px, 4vw, 56px); bottom: clamp(28px, 5vw, 64px); display: flex; flex-direction: column; gap: 14px; }
+.panel-nom { font-size: clamp(60px, 8vw, 130px); line-height: .9; }
+.panel .plus { display: flex; flex-direction: column; gap: 18px; opacity: 0; transform: translateY(16px); transition: all .8s ease .15s; }
+.panel:hover .plus, .panel:focus-visible .plus { opacity: 1; transform: none; }
+.chiffres { display: flex; flex-wrap: wrap; gap: 36px; }
+.chiffres .org { font-size: 44px; line-height: 1; }
+.chiffres .kick { color: var(--texte-2); }
+.panel .archi { font-family: var(--f-label); font-weight: 300; color: var(--texte-2); }
+
+/* ---------- SOLOGNE (photo dans les lettres) ---------- */
+.sologne { padding: clamp(80px, 10vw, 140px) 0 clamp(40px, 6vw, 80px); overflow: hidden; }
+.masque { background-image: url("../assets/img/trou-12.webp"); background-size: cover; background-position: 50% 50%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sologne .masque { font-family: "Anton", Impact, sans-serif; font-size: 29vw; line-height: 1.02; text-align: center; white-space: nowrap; text-transform: uppercase; }
+.sologne .legende { margin-top: 28px; text-align: center; font-family: var(--f-label); font-weight: 300; font-size: 15px; letter-spacing: .3em; text-transform: uppercase; color: var(--gris); }
+
+/* ---------- Restauration ---------- */
+.section { padding: clamp(80px, 10vw, 140px) 0; }
+.deux-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: clamp(40px, 7vw, 110px); align-items: center; }
+.cadre-chef { position: relative; aspect-ratio: 4 / 5; background: var(--fond-2); max-width: 540px; width: 100%; overflow: hidden; }
+.cadre-chef .img-cover { filter: brightness(.55); }
+.cadre-chef .chef { position: absolute; left: 50%; bottom: 0; height: 88%; width: auto; max-width: none; transform: translateX(-50%); }
+.pile { display: flex; flex-direction: column; gap: 26px; }
+.liens { display: flex; flex-wrap: wrap; gap: 36px; }
+
+/* ---------- Tarifs ---------- */
+.tarifs { position: relative; padding: clamp(100px, 12vw, 170px) 0; overflow: hidden; }
+.tarifs-tete { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; margin-bottom: clamp(40px, 6vw, 72px); }
+.tarifs-tete h2 { font-size: clamp(64px, 9vw, 140px); line-height: .85; }
+.tarifs-tete .italique { font-size: clamp(18px, 1.8vw, 22px); line-height: 1.5; color: var(--texte-2); max-width: 620px; }
+.cartes { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2px; }
+.carte { position: relative; min-height: 640px; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: clamp(48px, 6vw, 80px) clamp(28px, 4vw, 64px); }
+.carte .img-cover { filter: brightness(.28) saturate(.7); transition: transform 1.6s var(--ease), filter 1s ease; }
+.carte:hover .img-cover { transform: scale(1.06); filter: brightness(.38) saturate(.85); }
+.carte .cadre { position: absolute; inset: 16px; border: 1px solid var(--bronze); pointer-events: none; transition: inset .8s var(--ease); }
+.carte:hover .cadre { inset: 26px; }
+.carte-contenu { position: relative; width: 100%; max-width: 440px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+.carte h3 { font-size: clamp(56px, 6vw, 84px); line-height: .9; font-weight: 400; }
+.carte .sous-titre { font-size: 18px; color: var(--texte-2); }
+.ornement { display: flex; align-items: center; gap: 12px; margin: 14px 0 22px; }
+.ornement span { width: 44px; height: 1px; background: var(--bronze); }
+.ornement span:nth-child(2) { width: 7px; height: 7px; transform: rotate(45deg); }
+.grille-prix { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.grille-prix th, .grille-prix td { padding: 16px 0; }
+.grille-prix thead th { padding: 0 0 12px; text-align: right; font-weight: 500; font-size: 10px; letter-spacing: .24em; color: var(--gris-2); width: 90px; }
+.grille-prix thead th:first-child { width: auto; }
+.grille-prix tbody tr { border-top: 1px solid rgba(255,255,255,.14); }
+.grille-prix tbody th { text-align: left; font-family: var(--f-label); font-weight: 300; font-size: 16px; letter-spacing: .06em; color: var(--texte); }
+.grille-prix .libelle { display: flex; align-items: baseline; gap: 10px; }
+.grille-prix .libelle::after { content: ""; flex: 1; border-bottom: 1px dotted rgba(165,122,67,.6); transform: translateY(-4px); }
+.grille-prix td { text-align: right; font-family: var(--f-titre); font-size: 30px; line-height: 1; color: var(--gris-2); }
+/* Saison en cours mise en avant (attribut posé par main.js) */
+html[data-saison="haute"] .grille-prix .p-haute,
+html[data-saison="basse"] .grille-prix .p-basse { color: var(--blanc); }
+html[data-saison="haute"] .grille-prix thead .p-haute,
+html[data-saison="basse"] .grille-prix thead .p-basse { color: var(--bronze); }
+.carte .offert { margin-top: 22px; font-size: 13px; line-height: 1.6; color: var(--texte-2); max-width: 340px; }
+.tarifs-notes { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 40px; margin-top: clamp(40px, 6vw, 72px); text-align: center; font-size: 14px; color: var(--gris); }
+.tarifs-notes strong { color: var(--blanc); font-weight: 400; }
+.tarifs-notes .sep { width: 1px; height: 18px; background: #333; }
+.tarifs-notes .ulink { padding: 8px 0; }
+
+/* ---------- Séjour ---------- */
+.sejour { padding: clamp(100px, 12vw, 170px) 0 clamp(60px, 8vw, 110px); }
+.sejour-tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 48px; }
+.sejour-tete p:last-child { max-width: 360px; color: var(--gris); font-size: 15px; }
+.rail { display: flex; gap: 2px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: #333 transparent; padding-left: clamp(16px, 4vw, 56px); }
+.rail a { position: relative; flex: 0 0 clamp(260px, 28vw, 360px); aspect-ratio: 3 / 4; overflow: hidden; text-decoration: none; scroll-snap-align: start; }
+.rail .img-cover { filter: grayscale(.6) brightness(.7); transition: transform 1s var(--ease), filter .8s ease; }
+.rail a:hover .img-cover, .rail a:focus-visible .img-cover { transform: scale(1.06); filter: none; }
+.rail .voile { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(18,18,18,.92), rgba(18,18,18,0) 55%); }
+.rail .texte { position: absolute; left: 22px; right: 22px; bottom: 22px; }
+.rail .org { font-size: 32px; line-height: 1.05; color: var(--blanc); }
+
+/* ---------- Médias : photos empilées ---------- */
+.medias { padding: clamp(40px, 6vw, 80px) 0 clamp(60px, 8vw, 110px); }
+.medias-tete { display: flex; flex-direction: column; gap: 18px; margin-bottom: 48px; }
+.pile-photo { position: sticky; top: 90px; display: block; height: 78vh; min-height: 420px; overflow: hidden; margin-bottom: 6vh; text-decoration: none; }
+.pile-photo .kick { position: absolute; left: 28px; bottom: 24px; }
+.pile-photo .video { position: absolute; inset: 0; background: rgba(18,18,18,.4); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; }
+.pile-photo .lecture { width: 96px; height: 96px; border: 1px solid var(--blanc); display: flex; align-items: center; justify-content: center; }
+.pile-photo .video .org { font-size: clamp(40px, 5vw, 72px); color: var(--blanc); }
+
+/* ---------- Accès ---------- */
+.acces { padding: clamp(80px, 10vw, 140px) 0; border-top: 1px solid #222; }
+.acces .w { display: flex; flex-direction: column; gap: clamp(48px, 7vw, 90px); }
+.distances { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.distances > div { padding: 10px 24px; }
+.distances > div:first-child { padding-left: 0; }
+.distances > div + div { border-left: 1px solid var(--trait); }
+.distances .org { font-size: clamp(90px, 10vw, 150px); line-height: .85; }
+.distances .kick { color: var(--texte-2); margin-top: 12px; }
+.statut { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.statut i { display: inline-block; width: 8px; height: 8px; background: var(--gris-2); }
+.statut.ouvert i { background: var(--bronze); }
+.cadre-plan { position: relative; aspect-ratio: 1 / 1; background: var(--fond-2); overflow: hidden; }
+
+/* ---------- Pied de page ---------- */
+.pied { padding: 72px 0 28px; border-top: 1px solid #222; overflow: hidden; }
+.pied .w { display: flex; flex-direction: column; gap: 40px; }
+.pied-haut { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; }
+.pied-haut .signature { display: flex; align-items: center; gap: 20px; }
+.pied-haut .signature img { width: 64px; height: 64px; }
+.pied-haut .italique { font-size: 26px; color: var(--texte); }
+.reseaux { display: flex; gap: 10px; }
+.reseaux a { width: 48px; height: 48px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; }
+.pied .geant { font-size: clamp(80px, 19vw, 300px); line-height: .8; letter-spacing: -3px; white-space: nowrap; text-align: center; opacity: .5; }
+.pied-bas { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; font-family: var(--f-label); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gris); }
+.pied-bas nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.pied-bas a { color: var(--gris); text-decoration: none; }
+.legal { font-size: 14px; color: var(--gris); border-top: 1px solid #222; }
+.legal details { border-bottom: 1px solid #222; }
+.legal summary { cursor: pointer; padding: 18px 0; font-family: var(--f-label); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--texte-2); }
+.legal .contenu { padding-bottom: 24px; display: grid; gap: 14px; max-width: 820px; }
+.legal h4 { margin: 0; color: var(--blanc); font-weight: 500; font-size: 14px; }
+.legal p { line-height: 1.6; }
+
+/* ---------- Animations au défilement (navigateurs compatibles) ---------- */
+@supports (animation-timeline: view()) {
+  .rv { animation: apparition linear both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
+  @keyframes apparition { from { opacity: 0; transform: translateY(70px); } to { opacity: 1; transform: none; } }
+  .masque { animation: masque linear both; animation-timeline: view(); }
+  @keyframes masque { from { background-position: 50% 0%; transform: scale(.92); } to { background-position: 50% 100%; transform: scale(1); } }
+  .rideau { animation: rideau linear both; animation-timeline: view(); animation-range: entry 0% cover 50%; }
+  @keyframes rideau { from { clip-path: inset(0 50% 0 50%); } to { clip-path: inset(0 0 0 0); } }
+  .trait-bronze { animation: trait linear both; animation-timeline: view(); animation-range: entry 20% cover 40%; }
+  @keyframes trait { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .pile-photo .img-cover { animation: pile linear both; animation-timeline: view(); }
+  @keyframes pile { from { transform: scale(1.25); } to { transform: scale(1); } }
+  .glisse { animation: glisse linear both; animation-timeline: view(); animation-range: entry 0% cover 60%; }
+  @keyframes glisse { from { transform: translateX(-12%); opacity: .2; } to { transform: none; opacity: 1; } }
+}
+
+/* ---------- Mobile ---------- */
+.burger { display: none; }
+@media (max-width: 900px) {
+  .burger { display: block; min-height: 44px; padding: 0 16px; background: transparent; border: 1px solid rgba(255,255,255,.35); color: var(--blanc); font-family: var(--f-titre); font-size: 20px; cursor: pointer; }
+  .nav { display: none; width: 100%; flex-direction: column; align-items: flex-start; padding: 8px 0 16px; }
+  .entete.is-open .nav { display: flex; }
+  .entete.is-open { background: rgba(18,18,18,.96); }
+  .nav a { font-size: 26px; padding: 10px 0; }
+  .split { flex-direction: column; height: auto; }
+  .split .panel, .split:hover .panel, .split .panel:hover { flex: none; height: 60vh; }
+  .panel + .panel { border-left: 0; border-top: 1px solid var(--bronze); }
+  .panel .plus { opacity: 1; transform: none; }
+  .distances > div { padding-left: 0; }
+  .distances > div + div { border-left: 0; border-top: 1px solid var(--trait); }
+  .tarifs-notes .sep { display: none; }
+}
+
+/* ---------- Mouvements réduits ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}

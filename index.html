@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les Aisses Golf · 27 trous en Sologne, La Ferté-Saint-Aubin</title>
+<meta name="description" content="Golf des Aisses : le parcours Les Aisses (18 trous, par 72, Martin Hawtree) et La Canne (9 trous) au cœur de la Sologne, à La Ferté-Saint-Aubin. Restaurant, tarifs, hébergements et accès.">
+<meta property="og:title" content="Les Aisses Golf">
+<meta property="og:description" content="27 trous au cœur de la Sologne, à 1 h 30 de Paris.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/img/accueil-1.webp">
+<meta name="theme-color" content="#121212">
+<link rel="icon" type="image/webp" href="assets/img/monogramme.webp">
+<link rel="preload" href="assets/fonts/Organda.woff" as="font" type="font/woff" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/main.js" defer></script>
+</head>
+<body>
+
+<header class="entete">
+  <div class="w">
+    <a class="logo" href="#accueil" aria-label="Les Aisses Golf, accueil"><img src="assets/img/logo.png" alt="Les Aisses Golf" width="135" height="50"></a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" data-burger>Menu</button>
+    <nav class="nav" id="menu" aria-label="Navigation principale">
+      <a href="#parcours">Parcours</a>
+      <a href="#restauration">Restauration</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="#sejour">Séjour</a>
+      <a href="#medias">Médias</a>
+      <a href="#acces">Accès</a>
+      <a class="reserver" href="https://aisses.l.netgolf.fr/">Réserver</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ ACCUEIL : diaporama ============
+     Pour changer une photo ou son parcours : modifier src, alt et data-parcours. -->
+<section id="accueil" class="accueil" aria-roledescription="carrousel" aria-label="Le golf en images">
+  <div class="slide is-active" data-parcours="Les Aisses"><img class="img-cover" src="assets/img/accueil-1.webp" alt="Le parcours Les Aisses vu du ciel"></div>
+  <div class="slide" data-parcours="La Canne"><img class="img-cover" src="assets/img/accueil-2.webp" alt="Le parcours La Canne vu du ciel" loading="lazy"></div>
+  <div class="slide" data-parcours="Les Aisses"><img class="img-cover" src="assets/img/accueil-3.webp" alt="Le parcours Les Aisses vu du ciel" loading="lazy"></div>
+  <div class="slide" data-parcours="La Canne"><img class="img-cover" src="assets/img/accueil-4.webp" alt="Le parcours La Canne vu du ciel" loading="lazy"></div>
+  <div class="slide" data-parcours="Les Aisses"><img class="img-cover" src="assets/img/accueil-5.webp" alt="Le parcours Les Aisses vu du ciel" loading="lazy"></div>
+  <div class="slide" data-parcours="Les Aisses"><img class="img-cover" src="assets/img/accueil-6.webp" alt="Le parcours Les Aisses vu du ciel" loading="lazy"></div>
+  <div class="accueil-voile"></div>
+  <div class="accueil-bas w">
+    <h1>
+      <span class="sr-only">Les Aisses Golf</span>
+      <!-- Les noms de parcours sont générés par js/main.js à partir de data-parcours -->
+    </h1>
+    <div class="pagination">
+      <span class="compteur"><b data-num>01</b> <span>/ 06</span></span>
+      <div class="barres" data-barres></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTRODUCTION ============ -->
+<section class="intro" aria-label="Introduction">
+  <div class="w">
+    <p class="kick rv">La Ferté-Saint-Aubin · Sologne</p>
+    <p class="phrase italique rv">Vingt-sept trous dessinés dans la forêt, entre bruyères, étangs et pins.</p>
+    <div class="trait-bronze" style="width:120px"></div>
+  </div>
+</section>
+
+<!-- ============ PARCOURS ============ -->
+<section id="parcours" aria-label="Les parcours">
+  <div class="split">
+    <a class="panel" href="#tarifs">
+      <img class="img-cover" src="assets/img/parcours-les-aisses.webp" alt="Le parcours Les Aisses vu du ciel" loading="lazy">
+      <div class="panel-texte">
+        <span class="kick">Parcours · 18 trous</span>
+        <span class="panel-nom org">Les Aisses</span>
+        <div class="plus">
+          <div class="chiffres">
+            <div><div class="org">72</div><div class="kick">Par</div></div>
+            <div><div class="org">6 673</div><div class="kick">Mètres</div></div>
+            <div><div class="org">5</div><div class="kick">Repères</div></div>
+          </div>
+          <span class="archi">Architecte Martin Hawtree</span>
+        </div>
+      </div>
+    </a>
+    <a class="panel" href="#tarifs">
+      <img class="img-cover" src="assets/img/parcours-la-canne.webp" alt="Le parcours La Canne" loading="lazy">
+      <div class="panel-texte">
+        <span class="kick">Parcours · 9 trous</span>
+        <span class="panel-nom org">La Canne</span>
+        <div class="plus">
+          <div class="chiffres">
+            <div><div class="org">36</div><div class="kick">Par</div></div>
+            <div><div class="org">3 264</div><div class="kick">Mètres</div></div>
+            <div><div class="org">5</div><div class="kick">Repères</div></div>
+          </div>
+          <span class="archi">Groupe Taiyo &amp; Olivier Brizon</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ SOLOGNE ============ -->
+<section class="sologne" aria-label="Sologne">
+  <div class="masque" aria-hidden="true">Sologne</div>
+  <p class="legende rv">Ici, on joue au rythme de la forêt</p>
+</section>
+
+<!-- ============ RESTAURATION ============ -->
+<section id="restauration" class="section">
+  <div class="w deux-col">
+    <div class="cadre-chef rideau">
+      <img class="img-cover" src="assets/img/club-house.webp" alt="" loading="lazy">
+      <img class="chef" src="assets/img/chef.webp" alt="Le chef Romain Boiscommun" loading="lazy">
+    </div>
+    <div class="pile">
+      <p class="kick rv">Restauration</p>
+      <h2 class="org titre-section rv">La table<br>du 19<sup style="font-size:.4em">e</sup> trou</h2>
+      <div class="trait-bronze" style="width:80px"></div>
+      <p class="italique rv" style="font-size:clamp(20px,2vw,26px);line-height:1.5;color:var(--texte);max-width:520px">Le chef Romain Boiscommun et son équipe vous accueillent au restaurant du golf tous les jours, sauf le mardi.</p>
+      <div class="liens rv">
+        <a class="ulink" href="https://www.aissesgolf.com/images/platdujour.pdf">Plat du jour</a>
+        <a class="ulink" href="https://www.aissesgolf.com/images/carte.pdf">La carte</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TARIFS ============
+     La saison en cours est mise en avant automatiquement (js/main.js). -->
+<section id="tarifs" class="tarifs">
+  <div class="w">
+    <div class="tarifs-tete">
+      <p class="kick">Tarifs 2026</p>
+      <h2 class="org">Green-fees</h2>
+      <p class="italique">Haute saison du 1er avril au 31 octobre · basse saison du 1er novembre au 31 mars.</p>
+    </div>
+    <div class="cartes">
+      <article class="carte">
+        <img class="img-cover" src="assets/img/parcours-les-aisses.webp" alt="" loading="lazy">
+        <div class="cadre"></div>
+        <div class="carte-contenu">
+          <span class="kick">Parcours · 18 trous</span>
+          <h3 class="org">Les Aisses</h3>
+          <span class="sous-titre italique">Par 72 · Martin Hawtree</span>
+          <span class="ornement" aria-hidden="true"><span></span><span></span><span></span></span>
+          <table class="grille-prix">
+            <caption class="sr-only">Green-fees du parcours Les Aisses</caption>
+            <thead><tr><th scope="col"><span class="sr-only">Formule</span></th><th scope="col" class="p-haute">HAUTE</th><th scope="col" class="p-basse">BASSE</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><span class="libelle">18 trous</span></th><td class="p-haute">150 €</td><td class="p-basse">125 €</td></tr>
+              <tr><th scope="row"><span class="libelle">9 trous</span></th><td class="p-haute">80 €</td><td class="p-basse">65 €</td></tr>
+            </tbody>
+          </table>
+          <p class="offert">Location du chariot et jeton de practice offerts avec chaque green-fee.</p>
+        </div>
+      </article>
+      <article class="carte">
+        <img class="img-cover" src="assets/img/parcours-la-canne.webp" alt="" loading="lazy">
+        <div class="cadre"></div>
+        <div class="carte-contenu">
+          <span class="kick">Parcours · 9 trous</span>
+          <h3 class="org">La Canne</h3>
+          <span class="sous-titre italique">Par 36 · Groupe Taiyo &amp; Olivier Brizon</span>
+          <span class="ornement" aria-hidden="true"><span></span><span></span><span></span></span>
+          <table class="grille-prix">
+            <caption class="sr-only">Green-fees du parcours La Canne</caption>
+            <thead><tr><th scope="col"><span class="sr-only">Formule</span></th><th scope="col" class="p-haute">HAUTE</th><th scope="col" class="p-basse">BASSE</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><span class="libelle">18 trous</span></th><td class="p-haute">75 €</td><td class="p-basse">60 €</td></tr>
+              <tr><th scope="row"><span class="libelle">9 trous</span></th><td class="p-haute">48 €</td><td class="p-basse">38 €</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+    <div class="tarifs-notes">
+      <span><strong>−65 %</strong> moins de 16 ans</span>
+      <span class="sep" aria-hidden="true"></span>
+      <span><strong>−50 %</strong> étudiants et 16–21 ans</span>
+      <span class="sep" aria-hidden="true"></span>
+      <span>Tenue correcte exigée · ni t-shirt ni jean</span>
+      <span class="sep" aria-hidden="true"></span>
+      <a class="ulink" href="https://www.aissesgolf.com/images/tarifsabonnements.pdf">Tarifs des abonnements</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SÉJOUR ============ -->
+<section id="sejour" class="sejour">
+  <div class="w sejour-tete">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <p class="kick rv">Séjourner</p>
+      <h2 class="org titre-section rv">Un week-end<br>en Val de Loire</h2>
+    </div>
+    <p class="rv">Chambord, les châteaux de la Loire, le Domaine du Ciran et le ZooParc de Beauval sont à portée de route.</p>
+  </div>
+  <div class="rail rv">
+    <a href="http://www.loreedeschenes.com/"><img class="img-cover" src="assets/img/hotel-oree-des-chenes.webp" alt="L'Orée des Chênes" loading="lazy"><div class="voile"></div><div class="texte"><span class="kick">Hôtel ★★★★</span><div class="org">L'Orée des Chênes</div></div></a>
+    <a href="http://www.chateau-les-muids.com/"><img class="img-cover" src="assets/img/hotel-chateau-les-muids.webp" alt="Château les Muids" style="object-position:center top" loading="lazy"><div class="voile"></div><div class="texte"><span class="kick">Hôtel ★★★★</span><div class="org">Château les Muids</div></div></a>
+    <a href="https://www.chateaudelagiraudiere.fr/"><img class="img-cover" src="assets/img/hotel-chateau-giraudiere.webp" alt="Château de la Giraudière" loading="lazy"><div class="voile"></div><div class="texte"><span class="kick">Château</span><div class="org">Château de la Giraudière</div></div></a>
+    <a href="http://relaisdechambord.com"><img class="img-cover" src="assets/img/hotel-relais-chambord.webp" alt="Le Relais de Chambord" loading="lazy"><div class="voile"></div><div class="texte"><span class="kick">Hôtel</span><div class="org">Relais de Chambord</div></div></a>
+    <a href="https://www.accorhotels.com/fr/hotel-0419-novotel-orleans-sud-la-source/index.shtml"><img class="img-cover" src="assets/img/hotel-novotel-la-source.webp" alt="Novotel La Source" loading="lazy"><div class="voile"></div><div class="texte"><span class="kick">Orléans Sud</span><div class="org">Novotel La Source</div></div></a>
+  </div>
+</section>
+
+<!-- ============ MÉDIAS ============ -->
+<section id="medias" class="medias">
+  <div class="w">
+    <div class="medias-tete">
+      <p class="kick rv">Médias</p>
+      <h2 class="org titre-section rv">Vu du ciel</h2>
+    </div>
+    <div class="pile-photo"><img class="img-cover" src="assets/img/accueil-1.webp" alt="Un green des Aisses au bord de l'étang" loading="lazy"><span class="kick">01 · Les Aisses</span></div>
+    <div class="pile-photo"><img class="img-cover" src="assets/img/accueil-2.webp" alt="Un fairway bordé de bunkers" loading="lazy"><span class="kick">02 · La Canne</span></div>
+    <div class="pile-photo"><img class="img-cover" src="assets/img/accueil-4.webp" alt="Un green entouré de bunkers" loading="lazy"><span class="kick">03 · Les Aisses</span></div>
+    <a class="pile-photo" href="https://www.aissesgolf.com/images/videos/parcours.mp4">
+      <img class="img-cover" src="assets/img/accueil-6.webp" alt="Le parcours au soleil couchant" loading="lazy">
+      <span class="video"><span class="lecture" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M8 5v14l11-7z"/></svg></span><span class="org">Le film du parcours</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ ACCÈS ============ -->
+<section id="acces" class="acces">
+  <div class="w">
+    <div class="distances">
+      <div class="glisse"><div class="org">22</div><p class="kick">km d'Orléans</p></div>
+      <div class="glisse"><div class="org">115</div><p class="kick">km de Tours</p></div>
+      <div class="glisse"><div class="org">150</div><p class="kick">km de Paris</p></div>
+    </div>
+    <div class="deux-col" style="align-items:start">
+      <div class="pile" style="gap:22px">
+        <p class="kick">Infos et accès</p>
+        <h2 class="org" style="font-size:clamp(48px,6vw,90px);line-height:.9">Venir aux Aisses</h2>
+        <p style="color:var(--texte-2)">A71, sortie n° 2 Orléans La Source, puis RN20 direction La Ferté-Saint-Aubin. Gare de La Ferté-Saint-Aubin à 5 minutes. Aéroports de Tours (1 h 15), Orly (1 h 30) et Roissy (2 h).</p>
+        <p class="statut" data-statut><i></i><span>Ouvert tous les jours sauf le mardi</span></p>
+        <div class="liens">
+          <a class="ulink" href="https://www.google.com/maps/dir/?api=1&amp;destination=47.690603,1.968368">Itinéraire</a>
+          <a class="ulink" href="tel:+33238648087">02 38 64 80 87</a>
+          <a class="ulink" href="mailto:lesaisses@aissesgolf.com">Écrire</a>
+        </div>
+      </div>
+      <div class="cadre-plan rideau"><img class="img-cover" src="assets/img/plan-acces.webp" alt="Plan d'accès au golf des Aisses" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ PIED DE PAGE ============ -->
+<footer class="pied">
+  <div class="w">
+    <div class="pied-haut">
+      <div class="signature"><img src="assets/img/monogramme.webp" alt="" width="64" height="64"><p class="italique">À bientôt sur le tee n° 1.</p></div>
+      <div class="reseaux">
+        <a href="https://www.facebook.com/Lesaissesgolf/" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h-2.5A3.5 3.5 0 0 0 9 6.5V9H6.5v3.5H9V21h3.5v-8.5H15l.5-3.5h-3V7a1 1 0 0 1 1-1H15z"/></svg></a>
+        <a href="https://www.instagram.com/lesaissesgolf/" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17"/><circle cx="12" cy="12" r="4"/></svg></a>
+        <a href="https://x.com/LesAissesgolf" aria-label="X"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+      </div>
+    </div>
+    <div class="geant org masque" aria-hidden="true">Les Aisses</div>
+    <div class="legal">
+      <details id="mentions">
+        <summary>Mentions légales</summary>
+        <div class="contenu">
+          <h4>Édition</h4>
+          <p>Les Aisses Golf — RN20, 45240 La Ferté-Saint-Aubin · 02 38 64 80 87 · lesaisses@aissesgolf.com</p>
+          <h4>Directeur de la publication</h4>
+          <p>Alfred Seydoux</p>
+          <h4>Hébergement</h4>
+          <p>[À compléter selon l'hébergeur retenu]</p>
+          <h4>Droits de reproduction</h4>
+          <p>L'ensemble des textes, illustrations, photographies, plans, animations et vidéos de ce site ne peuvent être utilisés ou reproduits sans l'autorisation de l'éditeur. Pour toute demande, adressez-vous au Golf des Aisses.</p>
+          <h4>Responsabilité</h4>
+          <p>Le Golf des Aisses met à jour ce site sans préavis et décline toute responsabilité quant à l'usage des informations diffusées et au contenu des liens externes.</p>
+        </div>
+      </details>
+      <details id="credits">
+        <summary>Crédits</summary>
+        <div class="contenu">
+          <p>Photographies aériennes : [nom du photographe à confirmer].Film du parcours : Alfred Seydoux, images Absy TV, caméraman Marc Salama, pilote paramoteur Mathieu Rouanet, montage Grégoire de Laage.</p>
+        </div>
+      </details>
+    </div>
+    <div class="pied-bas">
+      <span>© 2026 Les Aisses Golf · RN20, 45240 La Ferté-Saint-Aubin</span>
+      <nav aria-label="Liens secondaires">
+        <a href="#mentions">Mentions légales</a>
+        <a href="#credits">Crédits</a>
+        <a href="http://www.asdesaisses.org/">Association sportive</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
