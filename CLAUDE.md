@@ -11,6 +11,9 @@ Toute modification de contenu ou de structure doit être reportée dans les deux
 - « Réserver » reste un lien du menu (https://aisses.l.netgolf.fr/), pas un bouton dans l'accueil.
 - L'accueil = uniquement la photo, le nom du parcours et la pagination.
 
+## Git
+- Une seule branche : `main`. Commiter et pousser directement sur `main` (le site GitHub Pages se met à jour automatiquement). Ne pas créer d'autre branche ni de pull request.
+
 ## Technique
 - Pas de framework ni de build : HTML/CSS/JS natifs. Garder ce choix sauf demande explicite.
 - Polices auto-hébergées dans `assets/fonts/` (pas d'appel à Google Fonts, pour le RGPD).
