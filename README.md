@@ -45,7 +45,7 @@ Les photos de l'accueil, les PDF du restaurant, les tarifs, les hébergements et
 
 | Je veux… | Où |
 |---|---|
-| Changer les distances, par ou handicaps | `js/main.js`, objet `PARCOURS` (carte de score) |
+| Changer les distances, par ou handicaps | Administration, onglet **Parcours** (valeurs de secours : objet `PARCOURS` dans `js/main.js`) |
 | Changer la couleur ou le nom d'un départ | `js/main.js` : tableau `BOULES` (couleurs) et `couleurs` dans l'objet `T` (noms français et anglais), du départ le plus long au plus court |
 | Changer les tarifs | `index.html`, section `id="tarifs"` (deux tableaux) |
 | Changer une photo de l'accueil ou son parcours | `index.html`, section `id="accueil"` : `src`, `alt` et `data-parcours` de chaque `.slide` |

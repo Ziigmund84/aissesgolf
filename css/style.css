@@ -74,14 +74,13 @@ h1, h2, h3, p { margin: 0; }
 
 /* ---------- Accueil : diaporama ---------- */
 .accueil { position: relative; height: 100vh; min-height: 600px; overflow: hidden; background: #0C0C0C; }
-.slide { position: absolute; inset: 0; overflow: hidden; z-index: 1; clip-path: inset(0 0 0 100%); }
-.slide.is-active, .slide.is-prev { clip-path: inset(0 0 0 0); }
-.slide.is-active { z-index: 3; transition: clip-path 1.5s var(--ease-rideau); }
-.slide.is-prev { z-index: 2; }
-.slide.is-active img { animation: kenburns 14s ease-out both; }
-@keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1); } }
+.slide { position: absolute; inset: 0; overflow: hidden; z-index: 1; opacity: 0; }
+.slide.is-prev { z-index: 2; opacity: 1; }
+.slide.is-active { z-index: 3; opacity: 1; transition: opacity 1.6s ease-in-out; }
+.slide.is-active img, .slide.is-prev img { animation: kenburns 9s linear both; }
+@keyframes kenburns { from { transform: scale(1.05); } to { transform: scale(1); } }
 .accueil-voile { position: absolute; inset: 0; z-index: 5; background: linear-gradient(180deg, rgba(18,18,18,.45) 0%, rgba(18,18,18,0) 30%, rgba(18,18,18,0) 55%, rgba(18,18,18,.55) 100%); }
-.vagues { position: absolute; left: 0; right: 0; bottom: -1px; z-index: 5; height: clamp(90px, 10vw, 200px); pointer-events: none; }
+.vagues { position: absolute; left: 0; right: 0; bottom: -1px; z-index: 5; height: clamp(45px, 5vw, 100px); pointer-events: none; }
 .vagues svg { display: block; width: 100%; height: 100%; }
 .vagues .v { fill: rgba(12, 12, 12, .5); }
 .vagues .socle { fill: #121212; }

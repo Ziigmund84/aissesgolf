@@ -55,6 +55,8 @@
             accueil.insertBefore(d, voile);
           });
         }
+        // Carte de score : distances, par et handicaps (lus par main.js)
+        if (reglages.parcours) window.AISSES_PARCOURS = reglages.parcours;
         // PDF du restaurant
         var pdf = reglages.pdf || {};
         Array.prototype.forEach.call(document.querySelectorAll("[data-pdf]"), function (a) {

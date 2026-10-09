@@ -143,6 +143,16 @@
   var BOULES = ["#161616", "#F4F4F2", "#E9C22E", "#2F6FD0", "#D2363A"];
 
   (function () {
+    // Valeurs saisies dans l'administration, si elles sont complètes
+    var saisi = window.AISSES_PARCOURS;
+    if (saisi) Object.keys(PARCOURS).forEach(function (cle) {
+      var src = saisi[cle], P = PARCOURS[cle], n = P.par.length;
+      var ok = function (t) { return Array.isArray(t) && t.length === n && t.every(function (v) { return typeof v === "number" && isFinite(v); }); };
+      if (!src) return;
+      if (ok(src.par)) P.par = src.par;
+      if (ok(src.hcp)) P.hcp = src.hcp;
+      if (Array.isArray(src.dist) && src.dist.length === P.dist.length && src.dist.every(ok)) P.dist = src.dist;
+    });
     var elOnglets = document.querySelector("[data-sc-parcours]");
     var elBoules = document.querySelector("[data-sc-boules]");
     var elTable = document.querySelector("[data-sc-table]");

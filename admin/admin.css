@@ -82,6 +82,27 @@ input:focus, select:focus, .btn:focus-visible { outline: 1px solid var(--bronze)
 .prix-table td input { max-width: 120px; }
 .euro { display: flex; align-items: center; gap: 6px; }
 
+/* Parcours */
+.onglets-parcours { display: flex; gap: 8px; margin-bottom: 20px; }
+.totaux-departs { display: flex; flex-wrap: wrap; gap: 8px 28px; padding: 14px 18px; margin-bottom: 20px; background: var(--fond-2); border: 1px solid var(--trait); }
+.totaux-departs > div { display: flex; align-items: center; gap: 8px; color: var(--gris); font-size: 13px; }
+.totaux-departs b { color: var(--blanc); font-weight: 500; font-variant-numeric: tabular-nums; }
+.boule-admin { display: inline-block; flex: none; width: 12px; height: 12px; border-radius: 50% !important; background: var(--c); box-shadow: 0 0 0 1px rgba(255,255,255,.3); vertical-align: middle; margin-right: 8px; }
+.carte-admin { margin-bottom: 20px; }
+.defile { overflow-x: auto; }
+.score-admin { border-collapse: collapse; min-width: 720px; width: 100%; font-variant-numeric: tabular-nums; }
+.score-admin th, .score-admin td { padding: 4px 3px; text-align: center; }
+.score-admin thead th { font: 400 18px "Organda", "Oswald", sans-serif; color: var(--texte); padding-bottom: 8px; }
+.score-admin th[scope="row"] { text-align: left; font-weight: 400; font-size: 13px; color: var(--gris); white-space: nowrap; padding-right: 10px; }
+.score-admin input { width: 100%; min-width: 48px; min-height: 36px; padding: 4px 2px; text-align: center; font-size: 14px; -moz-appearance: textfield; }
+.score-admin input::-webkit-outer-spin-button, .score-admin input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.score-admin input.invalide { border-color: var(--rouge); color: var(--rouge); }
+.score-admin .tot { min-width: 72px; color: var(--bronze); font-weight: 500; background: var(--fond); }
+.score-admin thead .tot { font: 500 10px "Montserrat", sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--bronze); }
+.barre-enregistrer { position: sticky; bottom: 0; display: flex; align-items: center; justify-content: flex-end; gap: 16px; padding: 14px 0; background: var(--fond); border-top: 1px solid var(--trait); }
+.barre-enregistrer .etat { color: var(--gris); font-size: 13px; }
+.barre-enregistrer .etat.attention { color: var(--bronze); }
+
 /* PDF */
 .pdf-actuel { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; color: var(--gris); font-size: 14px; word-break: break-all; }
 .pdf-actuel a { color: var(--bronze); }

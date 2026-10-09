@@ -107,7 +107,7 @@
     });
     var p = $("[data-panneau]");
     p.innerHTML = '<p class="chargement">Chargement…</p>';
-    ({ accueil: vueAccueil, restaurant: vueRestaurant, tarifs: vueTarifs, sejour: vueSejour, medias: vueMedias })[nom](p);
+    ({ accueil: vueAccueil, restaurant: vueRestaurant, tarifs: vueTarifs, parcours: vueParcours, sejour: vueSejour, medias: vueMedias })[nom](p);
   }
 
   // ---------- Fichiers ----------
@@ -344,6 +344,98 @@
         });
         ecrireReglage("tarifs", nouveau).then(function () { toast("Tarifs enregistrés et en ligne."); }).catch(echec);
       });
+    }).catch(echec);
+  }
+
+  // =============== PARCOURS (carte de score) ===============
+  var DEPARTS = [["Noir", "#161616"], ["Blanc", "#F4F4F2"], ["Jaune", "#E9C22E"], ["Bleu", "#2F6FD0"], ["Rouge", "#D2363A"]];
+  var NOMS_PARCOURS = { aisses: "Les Aisses", canne: "La Canne" };
+  var parcoursCourant = "aisses";
+  function vueParcours(p) {
+    lireReglage("parcours").then(function (donnees) {
+      if (!donnees || !donnees.aisses || !donnees.canne) { p.innerHTML = '<p class="chargement">Données des parcours introuvables.</p>'; return; }
+      var modifie = false;
+      var P = donnees[parcoursCourant], n = P.par.length;
+      var somme = function (t, d, f) { var x = 0; for (var i = d; i < f; i++) x += Number(t[i]) || 0; return x; };
+      var milliers = function (v) { return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, " "); };
+      var blocs = n === 18 ? [["Aller", 0, 9], ["Retour", 9, 18]] : [["9 trous", 0, 9]];
+
+      var ligne = function (cle, k, libelle, min, max, avecTotal) {
+        return function (d, f) {
+          var cells = "";
+          for (var i = d; i < f; i++) {
+            var v = cle === "dist" ? P.dist[k][i] : P[cle][i];
+            cells += '<td><input type="number" inputmode="numeric" min="' + min + '" max="' + max + '" step="1" required value="' + esc(v) +
+              '" data-cle="' + cle + '" data-k="' + k + '" data-i="' + i + '" aria-label="' + esc(libelle) + ", trou " + (i + 1) + '"></td>';
+          }
+          return "<tr><th scope=\"row\">" + (cle === "dist" ? '<span class="boule-admin" style="--c:' + DEPARTS[k][1] + '"></span>' : "") + esc(libelle) + "</th>" + cells +
+            '<td class="tot" data-tot="' + cle + "-" + k + "-" + d + "-" + f + '">' + (avecTotal ? "" : "") + "</td></tr>";
+        };
+      };
+      var lignes = [ligne("par", 0, "Par", 3, 6, true), ligne("hcp", 0, "Handicap", 1, 18, false)]
+        .concat(DEPARTS.map(function (dep, k) { return ligne("dist", k, dep[0], 1, 800, true); }));
+
+      p.innerHTML = tete("Parcours", "Longueurs des trous en mètres pour chaque départ, par et handicap. Les totaux se calculent automatiquement ; cliquez sur Enregistrer pour mettre en ligne.") +
+        '<div class="onglets-parcours" role="tablist">' + Object.keys(NOMS_PARCOURS).map(function (c) {
+          return '<button type="button" role="tab" aria-selected="' + (c === parcoursCourant) + '" class="btn' + (c === parcoursCourant ? " plein" : "") + '" data-parcours="' + c + '">' + NOMS_PARCOURS[c] + "</button>";
+        }).join("") + "</div>" +
+        '<div class="totaux-departs" data-totaux></div>' +
+        '<form data-form-parcours novalidate>' + blocs.map(function (b) {
+          var tetes = ""; for (var i = b[1]; i < b[2]; i++) tetes += '<th scope="col">' + (i + 1) + "</th>";
+          return '<div class="bloc carte-admin"><h3>' + NOMS_PARCOURS[parcoursCourant] + " · " + b[0] + '</h3><div class="defile"><table class="score-admin"><thead><tr><th scope="col">Trou</th>' + tetes +
+            '<th scope="col" class="tot">' + (n === 18 ? b[0] : "Total") + "</th></tr></thead><tbody>" +
+            lignes.map(function (l) { return l(b[1], b[2]); }).join("") + "</tbody></table></div></div>";
+        }).join("") +
+        '<div class="barre-enregistrer"><span class="etat" data-etat>Aucune modification.</span><button class="btn plein" type="submit">Enregistrer les longueurs</button></div></form>';
+
+      var form = $("[data-form-parcours]", p);
+      function recalculer() {
+        Array.prototype.forEach.call(p.querySelectorAll("[data-tot]"), function (td) {
+          var k = td.getAttribute("data-tot").split("-"), cle = k[0];
+          if (cle === "hcp") { td.textContent = ""; return; }
+          var t = cle === "dist" ? P.dist[k[1]] : P[cle];
+          td.textContent = milliers(somme(t, Number(k[2]), Number(k[3])));
+        });
+        $("[data-totaux]", p).innerHTML = DEPARTS.map(function (dep, k) {
+          return '<div><span class="boule-admin" style="--c:' + dep[1] + '"></span><span>' + dep[0] + '</span><b>' + milliers(somme(P.dist[k], 0, n)) + " m</b></div>";
+        }).join("") + '<div><span>Par</span><b>' + somme(P.par, 0, n) + "</b></div>";
+      }
+      form.addEventListener("input", function (e) {
+        var inp = e.target; if (!inp.matches("input[data-cle]")) return;
+        var cle = inp.getAttribute("data-cle"), k = Number(inp.getAttribute("data-k")), i = Number(inp.getAttribute("data-i"));
+        var v = inp.value === "" ? 0 : Math.round(Number(inp.value));
+        if (cle === "dist") P.dist[k][i] = v; else P[cle][i] = v;
+        inp.classList.toggle("invalide", !inp.checkValidity());
+        modifie = true;
+        $("[data-etat]", p).textContent = "Modifications non enregistrées.";
+        $("[data-etat]", p).classList.add("attention");
+        recalculer();
+      });
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var invalides = Array.prototype.filter.call(form.querySelectorAll("input[data-cle]"), function (i) { return !i.checkValidity(); });
+        if (invalides.length) {
+          invalides.forEach(function (i) { i.classList.add("invalide"); });
+          invalides[0].focus();
+          toast("Vérifiez les cases en rouge (longueur 1 à 800 m, par 3 à 6, handicap 1 à 18).", true);
+          return;
+        }
+        ecrireReglage("parcours", donnees).then(function () {
+          modifie = false;
+          $("[data-etat]", p).textContent = "Enregistré et en ligne.";
+          $("[data-etat]", p).classList.remove("attention");
+          toast("Longueurs enregistrées et en ligne.");
+        }).catch(echec);
+      });
+      Array.prototype.forEach.call(p.querySelectorAll("[data-parcours]"), function (b) {
+        b.addEventListener("click", function () {
+          if (b.getAttribute("data-parcours") === parcoursCourant) return;
+          if (modifie) { toast("Enregistrez d'abord les modifications de " + NOMS_PARCOURS[parcoursCourant] + ".", true); return; }
+          parcoursCourant = b.getAttribute("data-parcours");
+          vueParcours(p);
+        });
+      });
+      recalculer();
     }).catch(echec);
   }
 
