@@ -17,6 +17,8 @@ Toute modification de contenu ou de structure doit être reportée dans les deux
 - Images en WebP dans `assets/img/`.
 - Les animations au défilement utilisent `animation-timeline: view()` dans un bloc `@supports` : sans support, le contenu reste simplement visible.
 - Respecter `prefers-reduced-motion`.
+- Aucun commentaire dans les fichiers HTML (visibles via « Afficher le code source ») : documenter dans README.md.
+- Tout fichier interne ajouté (notes, scripts, SQL) doit être ajouté à `exclude` dans `_config.yml` pour ne pas être publié.
 
 ## Administration (Supabase)
 - `admin/` : interface d'administration ; `js/contenu.js` remplace dans la page les sections administrables (accueil, PDF, tarifs, hébergements, galerie) par les données Supabase.

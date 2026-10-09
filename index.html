@@ -43,8 +43,6 @@
 
 <main>
 
-<!-- ============ ACCUEIL : diaporama ============
-     Pour changer une photo ou son parcours : modifier src, alt et data-parcours. -->
 <section id="accueil" class="accueil" data-slides aria-roledescription="carrousel" aria-label="Le golf en images">
   <div class="slide is-active" data-parcours="Les Aisses"><img class="img-cover" src="assets/img/accueil-1.webp" alt="Le parcours Les Aisses vu du ciel"></div>
   <div class="slide" data-parcours="La Canne"><img class="img-cover" src="assets/img/accueil-2.webp" alt="Le parcours La Canne vu du ciel" loading="lazy"></div>
@@ -56,7 +54,6 @@
   <div class="accueil-bas w">
     <h1>
       <span class="sr-only">Les Aisses Golf</span>
-      <!-- Les noms de parcours sont générés par js/main.js à partir de data-parcours -->
     </h1>
     <div class="pagination">
       <span class="compteur"><b data-num>01</b> <span>/ 06</span></span>
@@ -65,7 +62,6 @@
   </div>
 </section>
 
-<!-- ============ INTRODUCTION ============ -->
 <section class="intro" aria-label="Introduction">
   <div class="w">
     <p class="kick rv">La Ferté-Saint-Aubin · Sologne</p>
@@ -74,7 +70,6 @@
   </div>
 </section>
 
-<!-- ============ PARCOURS ============ -->
 <section id="parcours" aria-label="Les parcours">
   <div class="split">
     <a class="panel" href="#carte-score">
@@ -112,8 +107,6 @@
   </div>
 </section>
 
-<!-- ============ CARTE DE SCORE ============
-     Générée par js/main.js à partir de l'objet PARCOURS (distances, par, handicap). -->
 <section class="score" aria-labelledby="score-titre">
   <div id="carte-score" class="w">
     <div class="score-tete">
@@ -138,13 +131,11 @@
   </div>
 </section>
 
-<!-- ============ SOLOGNE ============ -->
 <section class="sologne" aria-label="Sologne">
   <div class="masque" aria-hidden="true">Sologne</div>
   <p class="legende rv">Ici, on joue au rythme de la forêt</p>
 </section>
 
-<!-- ============ RESTAURATION ============ -->
 <section class="section">
   <div id="restauration" class="w deux-col">
     <div class="cadre-chef rideau">
@@ -163,8 +154,6 @@
   </div>
 </section>
 
-<!-- ============ TARIFS ============
-     La saison en cours est mise en avant automatiquement (js/main.js). -->
 <section class="tarifs">
   <div id="tarifs" class="w">
     <div class="tarifs-tete">
@@ -223,7 +212,6 @@
   </div>
 </section>
 
-<!-- ============ SÉJOUR ============ -->
 <section class="sejour">
   <div id="sejour" class="w sejour-tete">
     <div style="display:flex;flex-direction:column;gap:18px">
@@ -241,7 +229,6 @@
   </div>
 </section>
 
-<!-- ============ ACCÈS ============ -->
 <section class="acces">
   <div id="acces" class="w">
     <div class="distances">
@@ -266,9 +253,6 @@
   </div>
 </section>
 
-<!-- ============ MÉDIAS : mosaïque + lightbox ============
-     Pour ajouter une image : dupliquer un <li>. Les vignettes sont répétées automatiquement (js/main.js)
-     pour remplir toute la largeur ; la lightbox ne parcourt que les images uniques. -->
 <section class="medias">
   <div id="medias" class="w medias-tete">
     <div>
@@ -297,7 +281,6 @@
 
 </main>
 
-<!-- Lightbox -->
 <div class="lightbox" data-lightbox role="dialog" aria-modal="true" aria-label="Galerie" hidden>
   <div class="lb-haut">
     <span class="org compteur"><b data-lb-num>01</b> <span data-lb-total>/ 14</span></span>
@@ -312,7 +295,6 @@
 </div>
 
 
-<!-- ============ PIED DE PAGE ============ -->
 <footer class="pied">
   <div class="w">
     <div class="pied-haut">

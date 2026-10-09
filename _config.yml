@@ -1,0 +1,5 @@
+exclude:
+  - ADMIN.md
+  - CLAUDE.md
+  - README.md
+  - supabase/

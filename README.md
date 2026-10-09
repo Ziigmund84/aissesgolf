@@ -51,6 +51,7 @@ Les photos de l'accueil, les PDF du restaurant, les tarifs, les hébergements et
 | Changer les horaires | `js/main.js`, objet `HORAIRES` en haut du fichier |
 | Changer les dates de saison | `js/main.js` (ligne « Saison en cours ») et le texte de la section tarifs |
 | Changer les couleurs | `css/style.css`, variables dans `:root` |
+| Ajouter une image dans Médias | `index.html` et `en/index.html`, section `id="medias"` : dupliquer un `<li>`. Les vignettes sont répétées automatiquement par `js/main.js` pour remplir la largeur ; la lightbox ne parcourt que les images uniques |
 
 ## Reste à compléter
 
@@ -62,5 +63,9 @@ Les photos de l'accueil, les PDF du restaurant, les tarifs, les hébergements et
 - Le plat du jour, la carte, les tarifs d'abonnement et le film pointent encore vers les fichiers de l'ancien site (aissesgolf.com/images/…) : les rapatrier dans `assets/` avant de couper l'ancien site.
 
 ## Publication
+
+Les fichiers HTML ne contiennent volontairement aucun commentaire (le code source est visible par les visiteurs) : les explications sont dans ce README. Le titre de l'accueil (nom du parcours), la carte de score et la mise en avant de la saison en cours sont générés par `js/main.js`.
+
+Sur GitHub Pages, `_config.yml` empêche la publication des fichiers internes (`ADMIN.md`, `CLAUDE.md`, `README.md`, `supabase/`). Ils restent visibles dans le dépôt GitHub lui-même s'il est public.
 
 Le site peut être publié tel quel sur GitHub Pages, Netlify, ou l'hébergement actuel (LWS) en copiant les fichiers à la racine.
