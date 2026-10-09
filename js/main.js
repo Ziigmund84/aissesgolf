@@ -37,11 +37,13 @@
   var T = EN ? {
     fermeMardi: "Closed on Tuesdays", ouvertJusqua: "Open today until ", ouvreA: "Opens today at ",
     fermeDemain: "Closed · reopens tomorrow", menu: "Menu", fermer: "Close", parcours: "Course", photo: "Photo",
-    trou: "Hole", trous: "holes", repere: "Tee", aller: "Front nine", retour: "Back nine", total: "Total", hcp: "Stroke index", m: "m", par: "Par", distance: "Distance", tousReperes: "All tees", voirTrou: "Show hole", precedent: "Previous hole", suivant: "Next hole", reperes: ["Red", "Blue", "Yellow", "White", "Black"]
+    trou: "Hole", aller: "Front nine", retour: "Back nine", out: "Out", in_: "In", total: "Total", hcp: "Stroke index", m: "m", par: "Par", depart: "Tee",
+    couleurs: ["Black", "White", "Yellow", "Blue", "Red"]
   } : {
     fermeMardi: "Fermé le mardi", ouvertJusqua: "Ouvert aujourd\u2019hui jusqu\u2019à ", ouvreA: "Ouvre aujourd\u2019hui à ",
     fermeDemain: "Fermé · réouvre demain", menu: "Menu", fermer: "Fermer", parcours: "Parcours", photo: "Photo",
-    trou: "Trou", trous: "trous", repere: "Repère", aller: "Aller", retour: "Retour", total: "Total", hcp: "Handicap", m: "m", par: "Par", distance: "Distance", tousReperes: "Tous les repères", voirTrou: "Voir le trou", precedent: "Trou précédent", suivant: "Trou suivant", reperes: ["Rouge", "Bleu", "Jaune", "Blanc", "Noir"]
+    trou: "Trou", aller: "Aller", retour: "Retour", out: "Aller", in_: "Retour", total: "Total", hcp: "Handicap", m: "m", par: "Par", depart: "Départ",
+    couleurs: ["Noir", "Blanc", "Jaune", "Bleu", "Rouge"]
   };
   // Heures : 8h30 en français, 8:30am en anglais
   var fmt = function (m) {
@@ -126,162 +128,66 @@
       ]
     }
   };
-  // Couleur de chaque repère, dans l'ordre des lignes de dist (repère 1 à 5).
-  // bord : contour visible sur fond sombre (utile pour le noir).
-  var REPERES = [
-    { c: "#C8102E", bord: "#C8102E" },
-    { c: "#2F6FD0", bord: "#2F6FD0" },
-    { c: "#F2C230", bord: "#F2C230" },
-    { c: "#F4F4F4", bord: "#F4F4F4" },
-    { c: "#050505", bord: "#8A8A8A" }
-  ];
-  var couleur = function (k) { return "--rep:" + REPERES[k].c + ";--rep-bord:" + REPERES[k].bord; };
+  // Couleur des boules de départ, du plus long au plus court (même ordre que dist)
+  var BOULES = ["#161616", "#F4F4F2", "#E9C22E", "#2F6FD0", "#D2363A"];
+
   (function () {
-    var racine = document.querySelector("[data-scorecard]");
-    if (!racine) return;
     var elOnglets = document.querySelector("[data-sc-parcours]");
-    var elReperes = document.querySelector("[data-sc-reperes]");
-    var elDetail = document.querySelector("[data-sc-detail]");
-    var elGraph = document.querySelector("[data-sc-graph]");
-    var elTotaux = document.querySelector("[data-sc-totaux]");
+    var elBoules = document.querySelector("[data-sc-boules]");
     var elTable = document.querySelector("[data-sc-table]");
-    var etat = { parcours: "aisses", repere: 0, trou: 0 };
-    var MAX = 560; // échelle des barres (mètres)
+    if (!elOnglets || !elBoules || !elTable) return;
+    var etat = { parcours: "aisses", depart: 1 };
     var somme = function (a, d, f) { var t = 0; for (var i = d; i < f; i++) t += a[i]; return t; };
     var nb = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, EN ? "," : " "); };
-    var esc = function (t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;"); };
+    var boule = function (k) { return '<span class="boule" style="--c:' + BOULES[k] + '" aria-hidden="true"></span>'; };
 
-    // Onglets parcours
     Object.keys(PARCOURS).forEach(function (cle) {
       var b = document.createElement("button");
-      b.type = "button"; b.setAttribute("role", "tab");
+      b.type = "button"; b.setAttribute("role", "tab"); b.dataset.cle = cle;
       b.textContent = PARCOURS[cle].nom + " · " + PARCOURS[cle].par.length;
-      b.addEventListener("click", function () { etat.parcours = cle; etat.trou = 0; rendre(true); });
-      b.dataset.cle = cle;
+      b.addEventListener("click", function () { etat.parcours = cle; rendre(); });
       elOnglets.appendChild(b);
     });
-    // Repères 1 à 5
-    for (var r = 0; r < 5; r++) (function (r) {
-      var b = document.createElement("button");
-      b.type = "button"; b.setAttribute("role", "radio");
-      b.setAttribute("style", couleur(r));
-      b.innerHTML = '<i class="pastille" aria-hidden="true"></i><span class="r-nom">' + T.reperes[r] + '</span><span class="r-num">' + T.repere + " " + (r + 1) + '</span><span class="r-dist org"></span>';
-      b.setAttribute("aria-label", T.repere + " " + (r + 1) + " · " + T.reperes[r]);
-      b.addEventListener("click", function () { etat.repere = r; rendre(false); });
-      elReperes.appendChild(b);
-    })(r);
 
-    // Trou précédent / suivant
-    elDetail.addEventListener("click", function (e) {
-      var b = e.target.closest("[data-sc-pas]");
-      if (!b) return;
-      var n = PARCOURS[etat.parcours].par.length;
-      etat.trou = (etat.trou + Number(b.getAttribute("data-sc-pas")) + n) % n;
-      rendre(false);
-      var meme = elDetail.querySelector('[data-sc-pas="' + b.getAttribute("data-sc-pas") + '"]');
-      if (meme) meme.focus();
-    });
-
-    // Navigation clavier dans le graphique
-    elGraph.addEventListener("keydown", function (e) {
-      var n = PARCOURS[etat.parcours].par.length;
-      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-        e.preventDefault();
-        etat.trou = (etat.trou + (e.key === "ArrowRight" ? 1 : -1) + n) % n;
-        rendre(false);
-        var cible = elGraph.querySelectorAll(".barre")[etat.trou];
-        if (cible) cible.focus();
-      }
-    });
-
-    function rendre(reconstruire) {
-      var P = PARCOURS[etat.parcours], n = P.par.length, d = P.dist[etat.repere], i = etat.trou;
+    function rendre() {
+      var P = PARCOURS[etat.parcours], n = P.par.length;
       Array.prototype.forEach.call(elOnglets.children, function (b) {
         var on = b.dataset.cle === etat.parcours; b.classList.toggle("is-on", on); b.setAttribute("aria-selected", on);
       });
-      Array.prototype.forEach.call(elReperes.children, function (b, k) {
-        var on = k === etat.repere; b.classList.toggle("is-on", on); b.setAttribute("aria-checked", on);
-        b.querySelector(".r-dist").innerHTML = nb(somme(P.dist[k], 0, n)) + " <small>" + T.m + "</small>";
-      });
-      racine.closest(".score").setAttribute("style", couleur(etat.repere));
 
-      // Détail du trou
-      var lignes = P.dist.map(function (row, k) {
-        return '<li class="' + (k === etat.repere ? "is-on" : "") + '" style="' + couleur(k) + '"><i class="pastille" aria-hidden="true"></i><span>' + T.reperes[k] + '</span><span class="sc-jauge"><i style="width:' + (row[i] / MAX * 100) + '%"></i></span><b>' + row[i] + " " + T.m + "</b></li>";
+      // Boules de départ avec la longueur totale du parcours
+      elBoules.innerHTML = P.dist.map(function (row, k) {
+        var on = k === etat.depart;
+        return '<button type="button" role="radio" aria-checked="' + on + '" class="' + (on ? "is-on" : "") + '" data-k="' + k + '">' +
+          boule(k) + '<span class="infos"><span class="nom">' + T.couleurs[k] + '</span><span class="long">' + nb(somme(row, 0, n)) + " <small>" + T.m + "</small></span></span></button>";
       }).join("");
-      elDetail.innerHTML =
-        '<div class="sc-haut"><p class="kick">' + esc(P.nom) + " · " + T.trou + '</p><div class="sc-pas">' +
-        '<button type="button" data-sc-pas="-1" aria-label="' + T.precedent + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>' +
-        '<button type="button" data-sc-pas="1" aria-label="' + T.suivant + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button></div></div>' +
-        '<div class="sc-num org">' + (i + 1) + '<span>/ ' + n + "</span></div>" +
-        '<div class="sc-infos"><div><span class="org">' + P.par[i] + '</span><span class="kick">' + T.par + '</span></div>' +
-        '<div><span class="org">' + P.hcp[i] + '</span><span class="kick">' + T.hcp + '</span></div>' +
-        '<div class="sc-dist"><span class="org">' + d[i] + ' <small>' + T.m + '</small></span><span class="kick"><i class="pastille" aria-hidden="true"></i>' + T.reperes[etat.repere] + "</span></div></div>" +
-        '<p class="kick sc-sous">' + T.tousReperes + '</p><ul class="sc-reperes">' + lignes + "</ul>";
-
-      // Graphique : une barre par trou, hauteur = distance
-      if (reconstruire || elGraph.children.length !== n + (n === 18 ? 1 : 0)) {
-        elGraph.innerHTML = "";
-        elGraph.classList.remove("is-vu");
-        for (var k = 0; k < n; k++) (function (k) {
-          if (n === 18 && k === 9) { var sep = document.createElement("span"); sep.className = "sc-sep"; sep.setAttribute("aria-hidden", "true"); elGraph.appendChild(sep); }
-          var b = document.createElement("button");
-          b.type = "button"; b.className = "barre";
-          b.style.setProperty("--i", k);
-          b.innerHTML = '<span class="b-col"><span class="b-fill"><span class="b-dist"></span></span></span><span class="b-num org">' + (k + 1) + '</span><span class="b-par">' + T.par + " " + P.par[k] + "</span>";
-          b.addEventListener("click", function () { etat.trou = k; rendre(false); });
-          b.addEventListener("mouseenter", function () { if (window.matchMedia("(hover: hover)").matches) { etat.trou = k; rendre(false); } });
-          elGraph.appendChild(b);
-        })(k);
-        requestAnimationFrame(function () { requestAnimationFrame(function () { if (vu) elGraph.classList.add("is-vu"); }); });
-      }
-      Array.prototype.forEach.call(elGraph.querySelectorAll(".barre"), function (b, k) {
-        b.classList.toggle("is-on", k === i);
-        b.setAttribute("aria-label", T.voirTrou + " " + (k + 1) + " · " + T.par + " " + P.par[k] + " · " + d[k] + " " + T.m);
-        b.tabIndex = k === i ? 0 : -1;
-        b.querySelector(".b-fill").style.height = (d[k] / MAX * 100) + "%";
-        b.querySelector(".b-dist").textContent = d[k];
+      Array.prototype.forEach.call(elBoules.children, function (b) {
+        b.addEventListener("click", function () { etat.depart = Number(b.dataset.k); rendre(); });
       });
 
-      // Totaux
-      var blocs = n === 18 ? [[T.aller, 0, 9], [T.retour, 9, 18], [T.total, 0, 18]] : [[T.total, 0, n]];
-      elTotaux.innerHTML = blocs.map(function (bl) {
-        return '<div><span class="kick">' + bl[0] + '</span><span class="org">' + nb(somme(d, bl[1], bl[2])) + ' <small>' + T.m + '</small></span><span class="sc-par">' + T.par + " " + somme(P.par, bl[1], bl[2]) + "</span></div>";
-      }).join("");
-
-      // Tableau complet
-      var cols = [];
-      for (var c = 0; c < n; c++) { cols.push(c); if (n === 18 && c === 8) cols.push("A"); }
-      if (n === 18) cols.push("R");
-      cols.push("T");
-      var cell = function (row, c, montrerSomme) {
-        if (c === "A") return montrerSomme ? somme(row, 0, 9) : "";
-        if (c === "R") return montrerSomme ? somme(row, 9, 18) : "";
-        if (c === "T") return montrerSomme ? somme(row, 0, n) : "";
-        return row[c];
+      // Une carte de 9 trous (aller, puis retour pour les 18 trous)
+      var neuf = function (titre, d, f, libTot) {
+        var trous = []; for (var i = d; i < f; i++) trous.push(i);
+        var ligne = function (cls, entete, row, avecTotal) {
+          return '<tr class="' + cls + '"><th scope="row">' + entete + "</th>" +
+            trous.map(function (i) { return "<td>" + row[i] + "</td>"; }).join("") +
+            '<td class="tot">' + (avecTotal ? nb(somme(row, d, f)) : "") + "</td></tr>";
+        };
+        return '<div class="carte-9"><table><caption>' + titre + "</caption><thead><tr><th scope=\"col\"><span class=\"sr-only\">" + T.trou + "</span></th>" +
+          trous.map(function (i) { return '<th scope="col">' + (i + 1) + "</th>"; }).join("") +
+          '<th scope="col" class="tot">' + libTot + "</th></tr></thead><tbody>" +
+          ligne("l-par", T.par, P.par, true) +
+          ligne("l-hcp", T.hcp, P.hcp, false) +
+          P.dist.map(function (row, k) {
+            return ligne("l-depart" + (k === etat.depart ? " is-on" : ""), '<span class="lib">' + boule(k) + T.couleurs[k] + "</span>", row, true);
+          }).join("") +
+          "</tbody></table></div>";
       };
-      var tete = "<tr><th scope=\"col\">" + T.trou + "</th>" + cols.map(function (c) {
-        var lab = c === "A" ? T.aller : c === "R" ? T.retour : c === "T" ? T.total : c + 1;
-        return '<th scope="col"' + (typeof c === "string" ? ' class="tot"' : "") + ">" + lab + "</th>";
-      }).join("") + "</tr>";
-      var ligne = function (nom, row, s, cls) {
-        return '<tr class="' + (cls || "") + '"><th scope="row">' + nom + "</th>" + cols.map(function (c) {
-          return "<td" + (typeof c === "string" ? ' class="tot"' : "") + ">" + cell(row, c, s) + "</td>";
-        }).join("") + "</tr>";
-      };
-      var corps = ligne(T.par, P.par, true, "l-par") + ligne(T.hcp, P.hcp, false, "l-hcp") +
-        P.dist.map(function (row, k) { return ligne('<i class="pastille" style="' + couleur(k) + '" aria-hidden="true"></i>' + T.reperes[k], row, true, k === etat.repere ? "is-on" : ""); }).join("");
-      elTable.innerHTML = "<table><caption class=\"sr-only\">" + esc(P.nom) + "</caption><thead>" + tete + "</thead><tbody>" + corps + "</tbody></table>";
+      elTable.innerHTML = n === 18
+        ? neuf(P.nom + " · " + T.aller, 0, 9, T.out) + neuf(P.nom + " · " + T.retour, 9, 18, T.in_)
+        : neuf(P.nom + " · 9 " + (EN ? "holes" : "trous"), 0, 9, T.total);
     }
-
-    // Les barres poussent quand la section arrive à l'écran
-    var vu = !("IntersectionObserver" in window);
-    if (!vu) {
-      new IntersectionObserver(function (entrees, obs) {
-        entrees.forEach(function (e) { if (e.isIntersecting) { vu = true; elGraph.classList.add("is-vu"); obs.disconnect(); } });
-      }, { threshold: 0.25 }).observe(elGraph);
-    }
-    rendre(true);
+    rendre();
   })();
 
   /* ---------- Médias : mosaïque + lightbox ---------- */

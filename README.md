@@ -46,7 +46,7 @@ Les photos de l'accueil, les PDF du restaurant, les tarifs, les hébergements et
 | Je veux… | Où |
 |---|---|
 | Changer les distances, par ou handicaps | `js/main.js`, objet `PARCOURS` (carte de score) |
-| Changer la couleur ou le nom d'un repère | `js/main.js` : tableau `REPERES` (couleurs) et `reperes` dans l'objet `T` (noms français et anglais) |
+| Changer la couleur ou le nom d'un départ | `js/main.js` : tableau `BOULES` (couleurs) et `couleurs` dans l'objet `T` (noms français et anglais), du départ le plus long au plus court |
 | Changer les tarifs | `index.html`, section `id="tarifs"` (deux tableaux) |
 | Changer une photo de l'accueil ou son parcours | `index.html`, section `id="accueil"` : `src`, `alt` et `data-parcours` de chaque `.slide` |
 | Changer les horaires | `js/main.js`, objet `HORAIRES` en haut du fichier |
