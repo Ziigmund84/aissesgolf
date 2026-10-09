@@ -86,19 +86,30 @@
     entete.querySelectorAll(".nav a").forEach(function (a) { a.addEventListener("click", fermer); });
   }
 
-  /* ---------- Mentions légales / crédits : ouvrir le volet visé par le lien ---------- */
-  function ouvrirVolet() {
-    var cible = location.hash && document.getElementById(location.hash.slice(1));
-    if (cible && cible.tagName === "DETAILS") cible.open = true;
+  /* ---------- Mentions légales / crédits : fenêtres au centre de l'écran ---------- */
+  function ouvrirModale(id) {
+    var m = document.getElementById(id);
+    if (!m || m.tagName !== "DIALOG" || m.open) return;
+    if (typeof m.showModal === "function") m.showModal(); else m.setAttribute("open", "");
+    document.body.classList.add("modale-ouverte");
   }
-  window.addEventListener("hashchange", ouvrirVolet);
-  document.querySelectorAll('a[href="#mentions"], a[href="#credits"]').forEach(function (a) {
-    a.addEventListener("click", function () {
-      var d = document.getElementById(a.getAttribute("href").slice(1));
-      if (d) d.open = true;
+  Array.prototype.forEach.call(document.querySelectorAll("dialog.modale"), function (m) {
+    var fermer = function () { if (m.open) m.close(); };
+    m.addEventListener("close", function () {
+      document.body.classList.remove("modale-ouverte");
+      if (location.hash === "#" + m.id) history.replaceState(null, "", location.pathname + location.search);
     });
+    m.addEventListener("click", function (e) { if (e.target === m) fermer(); });
+    Array.prototype.forEach.call(m.querySelectorAll("[data-modale-fermer]"), function (b) { b.addEventListener("click", fermer); });
   });
-  ouvrirVolet();
+  Array.prototype.forEach.call(document.querySelectorAll('a[href="#mentions"], a[href="#credits"]'), function (a) {
+    a.addEventListener("click", function (e) { e.preventDefault(); ouvrirModale(a.getAttribute("href").slice(1)); });
+  });
+  if (location.hash === "#mentions" || location.hash === "#credits") ouvrirModale(location.hash.slice(1));
+
+  /* ---------- Vagues de l'accueil : immobiles si l'utilisateur limite les animations ---------- */
+  var vagues = document.querySelector(".vagues svg");
+  if (vagues && window.matchMedia("(prefers-reduced-motion: reduce)").matches && vagues.pauseAnimations) vagues.pauseAnimations();
 
   /* ---------- Carte de score interactive ----------
      Distances en mètres, du repère 1 (le plus long) au repère 5. */
@@ -136,6 +147,17 @@
     var elBoules = document.querySelector("[data-sc-boules]");
     var elTable = document.querySelector("[data-sc-table]");
     if (!elOnglets || !elBoules || !elTable) return;
+    var ouvrir = document.querySelector("[data-sc-ouvrir]");
+    if (ouvrir) {
+      var texteOuvrir = ouvrir.querySelector("[data-sc-ouvrir-texte]");
+      var libelles = EN ? ["View the scorecard", "Hide the scorecard"] : ["Voir la carte de score", "Masquer la carte de score"];
+      ouvrir.addEventListener("click", function () {
+        var visible = elTable.hidden;
+        elTable.hidden = !visible;
+        ouvrir.setAttribute("aria-expanded", visible ? "true" : "false");
+        texteOuvrir.textContent = libelles[visible ? 1 : 0];
+      });
+    }
     var etat = { parcours: "aisses", depart: 1 };
     var somme = function (a, d, f) { var t = 0; for (var i = d; i < f; i++) t += a[i]; return t; };
     var nb = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, EN ? "," : " "); };
