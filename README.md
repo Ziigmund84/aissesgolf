@@ -46,6 +46,7 @@ Les photos de l'accueil, les PDF du restaurant, les tarifs, les hébergements et
 | Je veux… | Où |
 |---|---|
 | Changer les distances, par ou handicaps | `js/main.js`, objet `PARCOURS` (carte de score) |
+| Changer la couleur ou le nom d'un repère | `js/main.js` : tableau `REPERES` (couleurs) et `reperes` dans l'objet `T` (noms français et anglais) |
 | Changer les tarifs | `index.html`, section `id="tarifs"` (deux tableaux) |
 | Changer une photo de l'accueil ou son parcours | `index.html`, section `id="accueil"` : `src`, `alt` et `data-parcours` de chaque `.slide` |
 | Changer les horaires | `js/main.js`, objet `HORAIRES` en haut du fichier |
@@ -55,7 +56,6 @@ Les photos de l'accueil, les PDF du restaurant, les tarifs, les hébergements et
 
 ## Reste à compléter
 
-- Couleur ou nom de chaque repère de départ (affichés pour l'instant « Repère 1 » à « 5 »).
 - Hébergeur dans les mentions légales.
 - Nom du photographe dans les crédits.
 - Vérifier quelles photos de l'accueil montrent Les Aisses ou La Canne (`data-parcours`).

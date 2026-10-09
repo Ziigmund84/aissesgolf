@@ -37,11 +37,11 @@
   var T = EN ? {
     fermeMardi: "Closed on Tuesdays", ouvertJusqua: "Open today until ", ouvreA: "Opens today at ",
     fermeDemain: "Closed · reopens tomorrow", menu: "Menu", fermer: "Close", parcours: "Course", photo: "Photo",
-    trou: "Hole", trous: "holes", repere: "Tee", aller: "Front nine", retour: "Back nine", total: "Total", hcp: "Stroke index", m: "m", par: "Par", distance: "Distance", tousReperes: "All tees", voirTrou: "Show hole"
+    trou: "Hole", trous: "holes", repere: "Tee", aller: "Front nine", retour: "Back nine", total: "Total", hcp: "Stroke index", m: "m", par: "Par", distance: "Distance", tousReperes: "All tees", voirTrou: "Show hole", precedent: "Previous hole", suivant: "Next hole", reperes: ["Red", "Blue", "Yellow", "White", "Black"]
   } : {
     fermeMardi: "Fermé le mardi", ouvertJusqua: "Ouvert aujourd\u2019hui jusqu\u2019à ", ouvreA: "Ouvre aujourd\u2019hui à ",
     fermeDemain: "Fermé · réouvre demain", menu: "Menu", fermer: "Fermer", parcours: "Parcours", photo: "Photo",
-    trou: "Trou", trous: "trous", repere: "Repère", aller: "Aller", retour: "Retour", total: "Total", hcp: "Handicap", m: "m", par: "Par", distance: "Distance", tousReperes: "Tous les repères", voirTrou: "Voir le trou"
+    trou: "Trou", trous: "trous", repere: "Repère", aller: "Aller", retour: "Retour", total: "Total", hcp: "Handicap", m: "m", par: "Par", distance: "Distance", tousReperes: "Tous les repères", voirTrou: "Voir le trou", precedent: "Trou précédent", suivant: "Trou suivant", reperes: ["Rouge", "Bleu", "Jaune", "Blanc", "Noir"]
   };
   // Heures : 8h30 en français, 8:30am en anglais
   var fmt = function (m) {
@@ -126,6 +126,16 @@
       ]
     }
   };
+  // Couleur de chaque repère, dans l'ordre des lignes de dist (repère 1 à 5).
+  // bord : contour visible sur fond sombre (utile pour le noir).
+  var REPERES = [
+    { c: "#C8102E", bord: "#C8102E" },
+    { c: "#2F6FD0", bord: "#2F6FD0" },
+    { c: "#F2C230", bord: "#F2C230" },
+    { c: "#F4F4F4", bord: "#F4F4F4" },
+    { c: "#050505", bord: "#8A8A8A" }
+  ];
+  var couleur = function (k) { return "--rep:" + REPERES[k].c + ";--rep-bord:" + REPERES[k].bord; };
   (function () {
     var racine = document.querySelector("[data-scorecard]");
     if (!racine) return;
@@ -154,11 +164,23 @@
     for (var r = 0; r < 5; r++) (function (r) {
       var b = document.createElement("button");
       b.type = "button"; b.setAttribute("role", "radio");
-      b.textContent = r + 1;
-      b.setAttribute("aria-label", T.repere + " " + (r + 1));
+      b.setAttribute("style", couleur(r));
+      b.innerHTML = '<i class="pastille" aria-hidden="true"></i><span class="r-nom">' + T.reperes[r] + '</span><span class="r-num">' + T.repere + " " + (r + 1) + '</span><span class="r-dist org"></span>';
+      b.setAttribute("aria-label", T.repere + " " + (r + 1) + " · " + T.reperes[r]);
       b.addEventListener("click", function () { etat.repere = r; rendre(false); });
       elReperes.appendChild(b);
     })(r);
+
+    // Trou précédent / suivant
+    elDetail.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-sc-pas]");
+      if (!b) return;
+      var n = PARCOURS[etat.parcours].par.length;
+      etat.trou = (etat.trou + Number(b.getAttribute("data-sc-pas")) + n) % n;
+      rendre(false);
+      var meme = elDetail.querySelector('[data-sc-pas="' + b.getAttribute("data-sc-pas") + '"]');
+      if (meme) meme.focus();
+    });
 
     // Navigation clavier dans le graphique
     elGraph.addEventListener("keydown", function (e) {
@@ -179,18 +201,22 @@
       });
       Array.prototype.forEach.call(elReperes.children, function (b, k) {
         var on = k === etat.repere; b.classList.toggle("is-on", on); b.setAttribute("aria-checked", on);
+        b.querySelector(".r-dist").innerHTML = nb(somme(P.dist[k], 0, n)) + " <small>" + T.m + "</small>";
       });
+      racine.closest(".score").setAttribute("style", couleur(etat.repere));
 
       // Détail du trou
       var lignes = P.dist.map(function (row, k) {
-        return '<li class="' + (k === etat.repere ? "is-on" : "") + '"><span>' + (k + 1) + '</span><i style="width:' + (row[i] / MAX * 100) + '%"></i><b>' + row[i] + " " + T.m + "</b></li>";
+        return '<li class="' + (k === etat.repere ? "is-on" : "") + '" style="' + couleur(k) + '"><i class="pastille" aria-hidden="true"></i><span>' + T.reperes[k] + '</span><span class="sc-jauge"><i style="width:' + (row[i] / MAX * 100) + '%"></i></span><b>' + row[i] + " " + T.m + "</b></li>";
       }).join("");
       elDetail.innerHTML =
-        '<p class="kick">' + esc(P.nom) + " · " + T.trou + "</p>" +
-        '<div class="sc-num org">' + (i + 1) + "</div>" +
+        '<div class="sc-haut"><p class="kick">' + esc(P.nom) + " · " + T.trou + '</p><div class="sc-pas">' +
+        '<button type="button" data-sc-pas="-1" aria-label="' + T.precedent + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>' +
+        '<button type="button" data-sc-pas="1" aria-label="' + T.suivant + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button></div></div>' +
+        '<div class="sc-num org">' + (i + 1) + '<span>/ ' + n + "</span></div>" +
         '<div class="sc-infos"><div><span class="org">' + P.par[i] + '</span><span class="kick">' + T.par + '</span></div>' +
         '<div><span class="org">' + P.hcp[i] + '</span><span class="kick">' + T.hcp + '</span></div>' +
-        '<div><span class="org">' + d[i] + '</span><span class="kick">' + T.distance + " (" + T.m + ")</span></div></div>" +
+        '<div class="sc-dist"><span class="org">' + d[i] + ' <small>' + T.m + '</small></span><span class="kick"><i class="pastille" aria-hidden="true"></i>' + T.reperes[etat.repere] + "</span></div></div>" +
         '<p class="kick sc-sous">' + T.tousReperes + '</p><ul class="sc-reperes">' + lignes + "</ul>";
 
       // Graphique : une barre par trou, hauteur = distance
@@ -244,7 +270,7 @@
         }).join("") + "</tr>";
       };
       var corps = ligne(T.par, P.par, true, "l-par") + ligne(T.hcp, P.hcp, false, "l-hcp") +
-        P.dist.map(function (row, k) { return ligne(T.repere + " " + (k + 1), row, true, k === etat.repere ? "is-on" : ""); }).join("");
+        P.dist.map(function (row, k) { return ligne('<i class="pastille" style="' + couleur(k) + '" aria-hidden="true"></i>' + T.reperes[k], row, true, k === etat.repere ? "is-on" : ""); }).join("");
       elTable.innerHTML = "<table><caption class=\"sr-only\">" + esc(P.nom) + "</caption><thead>" + tete + "</thead><tbody>" + corps + "</tbody></table>";
     }
 
