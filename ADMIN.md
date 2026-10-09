@@ -6,6 +6,7 @@ Elle permet de :
 - changer les photos de l'accueil, leur ordre, et indiquer pour chacune « Les Aisses » ou « La Canne » ;
 - mettre en ligne le PDF du menu du jour et celui de la carte du restaurant ;
 - modifier les tarifs des green-fees ;
+- modifier la longueur de chaque trou pour chaque départ (noir, blanc, jaune, bleu, rouge), ainsi que le par et le handicap : les totaux se recalculent automatiquement ;
 - ajouter, modifier, réordonner ou supprimer les hébergements (photo, nom, étiquette, lien) ;
 - ajouter, supprimer et réordonner les photos de la galerie Médias, avec leurs légendes.
 
